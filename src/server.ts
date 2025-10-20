@@ -24,7 +24,7 @@ export async function startServer() {
   const server = new Server(
     {
       name: '@mcp-servers/dev-tools',
-      version: '1.1.0',
+      version: '1.2.0',
     },
     {
       capabilities: {
@@ -232,6 +232,34 @@ export async function startServer() {
             },
             required: ['agent']
           }
+        },
+        {
+          name: 'read_file',
+          description: 'Read the content of a file',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              path: { type: 'string', description: 'File path (relative to workspace)' },
+              encoding: { type: 'string', enum: ['utf8', 'base64'], default: 'utf8' }
+            },
+            required: ['path']
+          }
+        },
+        {
+          name: 'write_file',
+          description: 'Create or write content to a file',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              agent: { type: 'string' },
+              path: { type: 'string' },
+              content: { type: 'string' },
+              encoding: { type: 'string', enum: ['utf8', 'base64'], default: 'utf8' },
+              overwrite: { type: 'boolean', default: false },
+              createBackup: { type: 'boolean', default: true }
+            },
+            required: ['agent', 'path', 'content']
+          }
         }
       ]
     };
@@ -262,6 +290,14 @@ export async function startServer() {
         }
         case 'get_file_info': {
           const result = await fileOperations.getFileInfo(args as any);
+          return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+        }
+        case 'read_file': {
+          const result = await fileOperations.readFile(args as any);
+          return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+        }
+        case 'write_file': {
+          const result = await fileOperations.writeFile(args as any);
           return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
         }
 
@@ -328,8 +364,8 @@ export async function startServer() {
   console.error(`Backup enabled: ${config.files.backupEnabled}`);
   console.error(`Rate limiting: ${config.rateLimits.enabled ? 'enabled' : 'disabled'}`);
   console.error('');
-  console.error('Available tools (12):');
-  console.error('  File Operations: rename_file, delete_file, copy_file, file_exists, get_file_info');
+  console.error('Available tools (14):');
+  console.error('  File Operations: rename_file, delete_file, copy_file, file_exists, get_file_info, read_file, write_file');
   console.error('  Directory Operations: list_directory, create_directory, delete_directory, move_directory');
   console.error('  Search Operations: search_files, search_content, find_duplicates');
 }

@@ -62,6 +62,8 @@ function getDefaultConfig(): DevToolsConfig {
         delete_file: { max: 20, per: 60000 },
         copy_file: { max: 50, per: 60000 },
         get_file_info: { max: 200, per: 60000 },
+        read_file: { max: 200, per: 60000 },
+        write_file: { max: 100, per: 60000 },
         
         // Directory Operations
         list_directory: { max: 100, per: 60000 },

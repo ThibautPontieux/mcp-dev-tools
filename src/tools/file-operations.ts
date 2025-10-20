@@ -15,7 +15,11 @@ import {
   FileExistsParams,
   FileExistsResult,
   GetFileInfoParams,
-  GetFileInfoResult
+  GetFileInfoResult,
+  ReadFileParams,
+  ReadFileResult,
+  WriteFileParams,
+  WriteFileResult
 } from '../types/tools.js';
 
 /**
@@ -503,6 +507,190 @@ export class FileOperations {
         isFile: false,
         isDirectory: false,
         extension: '',
+        timestamp,
+        error: errorMessage
+      };
+    }
+  }
+
+  /**
+   * Read file content
+   */
+  async readFile(params: ReadFileParams): Promise<ReadFileResult> {
+    const startTime = Date.now();
+    const timestamp = new Date().toISOString();
+
+    try {
+      // 1. Validate path
+      const pathValidation = this.pathValidator.validatePath(params.path);
+      if (!pathValidation.valid) {
+        throw new Error(`Invalid path: ${pathValidation.reason}`);
+      }
+
+      const fullPath = join(this.workspaceDir, params.path);
+
+      // 2. Check if file exists
+      let stats;
+      try {
+        stats = await fs.stat(fullPath);
+        if (!stats.isFile()) {
+          throw new Error(`Path is not a file: ${params.path}`);
+        }
+      } catch (error) {
+        throw new Error(`File not found: ${params.path}`);
+      }
+
+      // 3. Read content
+      const encoding = params.encoding || 'utf8';
+      const content = await fs.readFile(fullPath, encoding as BufferEncoding);
+
+      // 4. Log success
+      const duration = Date.now() - startTime;
+      await this.logger.log({
+        level: 'INFO',
+        agent: 'system',
+        operation: 'read_file',
+        params: { path: params.path },
+        result: { success: true, duration }
+      });
+
+      return {
+        success: true,
+        path: params.path,
+        content,
+        size: stats.size,
+        encoding,
+        timestamp
+      };
+
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      const errorMessage = error instanceof Error ? error.message : String(error);
+
+      await this.logger.log({
+        level: 'ERROR',
+        agent: 'system',
+        operation: 'read_file',
+        params: { path: params.path },
+        result: { success: false, duration, error: errorMessage }
+      });
+
+      return {
+        success: false,
+        path: params.path,
+        content: '',
+        size: 0,
+        encoding: params.encoding || 'utf8',
+        timestamp,
+        error: errorMessage
+      };
+    }
+  }
+
+  /**
+   * Write file content
+   */
+  async writeFile(params: WriteFileParams): Promise<WriteFileResult> {
+    const startTime = Date.now();
+    const timestamp = new Date().toISOString();
+
+    try {
+      // 1. Rate limiting
+      const rateCheck = this.rateLimiter.checkLimit('write_file', params.agent);
+      if (!rateCheck.allowed) {
+        throw new Error(`Rate limit exceeded: ${rateCheck.reason}`);
+      }
+
+      // 2. Validate params
+      if (!params.agent || !params.path || params.content === undefined) {
+        throw new Error('agent, path, and content are required');
+      }
+
+      // 3. Validate path
+      const pathValidation = this.pathValidator.validatePath(params.path);
+      if (!pathValidation.valid) {
+        throw new Error(`Invalid path: ${pathValidation.reason}`);
+      }
+
+      const fullPath = join(this.workspaceDir, params.path);
+
+      // 4. Check if file exists
+      let fileExists = false;
+      let created = false;
+      try {
+        await fs.access(fullPath);
+        fileExists = true;
+      } catch {
+        created = true;
+      }
+
+      // 5. Handle existing file
+      let backupPath: string | undefined;
+      if (fileExists) {
+        if (!params.overwrite) {
+          throw new Error(`File already exists: ${params.path}. Use overwrite: true`);
+        }
+
+        // Create backup if requested
+        if (params.createBackup !== false) {
+          const backup = await this.backupManager.createBackup(fullPath);
+          if (backup.success) {
+            backupPath = backup.backupPath;
+          }
+        }
+      }
+
+      // 6. Create parent directories
+      const parentDir = dirname(fullPath);
+      await fs.mkdir(parentDir, { recursive: true });
+
+      // 7. Write file
+      const encoding = params.encoding || 'utf8';
+      await fs.writeFile(fullPath, params.content, encoding as BufferEncoding);
+
+      // 8. Get file size
+      const stats = await fs.stat(fullPath);
+
+      // 9. Log success
+      const duration = Date.now() - startTime;
+      await this.logger.log({
+        level: 'INFO',
+        agent: params.agent,
+        operation: 'write_file',
+        params: {
+          path: params.path,
+          size: params.content.length,
+          created
+        },
+        result: { success: true, duration }
+      });
+
+      return {
+        success: true,
+        path: params.path,
+        size: stats.size,
+        backupPath,
+        created,
+        timestamp
+      };
+
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      const errorMessage = error instanceof Error ? error.message : String(error);
+
+      await this.logger.log({
+        level: 'ERROR',
+        agent: params.agent,
+        operation: 'write_file',
+        params: { path: params.path },
+        result: { success: false, duration, error: errorMessage }
+      });
+
+      return {
+        success: false,
+        path: params.path,
+        size: 0,
+        created: false,
         timestamp,
         error: errorMessage
       };

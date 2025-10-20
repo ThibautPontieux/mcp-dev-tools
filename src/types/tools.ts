@@ -111,3 +111,33 @@ export interface RateLimitResult {
   remaining?: number;
   resetIn?: number;
 }
+
+// Read File Types
+export interface ReadFileParams {
+  path: string;
+  encoding?: 'utf8' | 'base64';
+}
+
+export interface ReadFileResult extends ToolResult {
+  path: string;
+  content: string;
+  size: number;
+  encoding: string;
+}
+
+// Write File Types
+export interface WriteFileParams {
+  agent: string;
+  path: string;
+  content: string;
+  encoding?: 'utf8' | 'base64';
+  createBackup?: boolean;
+  overwrite?: boolean;
+}
+
+export interface WriteFileResult extends ToolResult {
+  path: string;
+  size: number;
+  backupPath?: string;
+  created: boolean;
+}
