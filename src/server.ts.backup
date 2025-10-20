@@ -1,0 +1,265 @@
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import {
+  CallToolRequestSchema,
+  ListToolsRequestSchema,
+} from '@modelcontextprotocol/sdk/types.js';
+import { loadConfig } from './utils/config.js';
+import { FileOperations } from './tools/file-operations.js';
+
+/**
+ * Start the MCP server
+ */
+export async function startServer() {
+  // Load configuration
+  const config = await loadConfig();
+  
+  // Initialize file operations
+  const fileOperations = new FileOperations(config);
+  
+  const server = new Server(
+    {
+      name: '@mcp-servers/dev-tools',
+      version: '1.0.0',
+    },
+    {
+      capabilities: {
+        tools: {},
+      },
+    }
+  );
+
+  // List available tools
+  server.setRequestHandler(ListToolsRequestSchema, async () => {
+    return {
+      tools: [
+        {
+          name: 'rename_file',
+          description: 'Rename or move a file within the workspace. Creates parent directories automatically. Use this instead of creating a new file when you want to modify an existing file.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              agent: {
+                type: 'string',
+                description: 'Agent identifier (for logging and rate limiting)'
+              },
+              oldPath: {
+                type: 'string',
+                description: 'Current file path (relative to workspace)'
+              },
+              newPath: {
+                type: 'string',
+                description: 'New file path (relative to workspace)'
+              },
+              overwrite: {
+                type: 'boolean',
+                description: 'Allow overwriting existing file (default: false)',
+                default: false
+              },
+              createBackup: {
+                type: 'boolean',
+                description: 'Create backup before overwriting (default: true)',
+                default: true
+              }
+            },
+            required: ['agent', 'oldPath', 'newPath']
+          }
+        },
+        {
+          name: 'delete_file',
+          description: 'Delete a file with optional backup. Requires explicit confirmation.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              agent: {
+                type: 'string',
+                description: 'Agent identifier'
+              },
+              path: {
+                type: 'string',
+                description: 'File path to delete (relative to workspace)'
+              },
+              confirm: {
+                type: 'boolean',
+                description: 'Must be true to confirm deletion'
+              },
+              createBackup: {
+                type: 'boolean',
+                description: 'Create backup before deletion (default: true)',
+                default: true
+              }
+            },
+            required: ['agent', 'path', 'confirm']
+          }
+        },
+        {
+          name: 'copy_file',
+          description: 'Copy a file to a new location. Preserves timestamps by default.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              agent: {
+                type: 'string',
+                description: 'Agent identifier'
+              },
+              sourcePath: {
+                type: 'string',
+                description: 'Source file path (relative to workspace)'
+              },
+              destPath: {
+                type: 'string',
+                description: 'Destination file path (relative to workspace)'
+              },
+              overwrite: {
+                type: 'boolean',
+                description: 'Allow overwriting existing file (default: false)',
+                default: false
+              },
+              preserveTimestamps: {
+                type: 'boolean',
+                description: 'Preserve original timestamps (default: true)',
+                default: true
+              }
+            },
+            required: ['agent', 'sourcePath', 'destPath']
+          }
+        },
+        {
+          name: 'file_exists',
+          description: 'Check if a file or directory exists and get its type.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              path: {
+                type: 'string',
+                description: 'Path to check (relative to workspace)'
+              }
+            },
+            required: ['path']
+          }
+        },
+        {
+          name: 'get_file_info',
+          description: 'Get detailed information about a file including size, timestamps, and permissions.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              path: {
+                type: 'string',
+                description: 'File path (relative to workspace)'
+              }
+            },
+            required: ['path']
+          }
+        }
+      ]
+    };
+  });
+
+  // Handle tool calls
+  server.setRequestHandler(CallToolRequestSchema, async (request) => {
+    const { name, arguments: args } = request.params;
+
+    try {
+      switch (name) {
+        case 'rename_file': {
+          const result = await fileOperations.renameFile(args as any);
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(result, null, 2)
+              }
+            ]
+          };
+        }
+
+        case 'delete_file': {
+          const result = await fileOperations.deleteFile(args as any);
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(result, null, 2)
+              }
+            ]
+          };
+        }
+
+        case 'copy_file': {
+          const result = await fileOperations.copyFile(args as any);
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(result, null, 2)
+              }
+            ]
+          };
+        }
+
+        case 'file_exists': {
+          const result = await fileOperations.fileExists(args as any);
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(result, null, 2)
+              }
+            ]
+          };
+        }
+
+        case 'get_file_info': {
+          const result = await fileOperations.getFileInfo(args as any);
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(result, null, 2)
+              }
+            ]
+          };
+        }
+
+        default:
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify({
+                  success: false,
+                  error: `Unknown tool: ${name}`
+                })
+              }
+            ],
+            isError: true
+          };
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify({
+              success: false,
+              error: errorMessage
+            })
+          }
+        ],
+        isError: true
+      };
+    }
+  });
+
+  // Start server with stdio transport
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+
+  console.error('MCP Dev Tools server started successfully');
+  console.error(`Workspace directory: ${config.workspace.dir}`);
+  console.error(`Backup enabled: ${config.files.backupEnabled}`);
+  console.error(`Rate limiting: ${config.rateLimits.enabled ? 'enabled' : 'disabled'}`);
+  console.error('Available tools: rename_file, delete_file, copy_file, file_exists, get_file_info');
+}
