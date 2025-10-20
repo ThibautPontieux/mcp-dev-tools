@@ -1,0 +1,22 @@
+theme: jekyll-theme-slate
+title: MCP Dev Tools
+description: File & Directory Operations for Autonomous AI Development
+show_downloads: true
+github:
+  repository_url: https://github.com/ThibautPontieux/mcp-dev-tools
+  is_project_page: true
+  owner_name: Thibaut Pontieux
+  
+# Navigation
+plugins:
+  - jekyll-relative-links
+  
+relative_links:
+  enabled: true
+  collections: true
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
