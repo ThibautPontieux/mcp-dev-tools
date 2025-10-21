@@ -15,6 +15,7 @@ npm-debug.log*
 # Backups
 .backups/
 _doc_backup_before_reorganization/
+.archive/
 
 # Testing
 coverage/

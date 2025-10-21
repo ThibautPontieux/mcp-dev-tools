@@ -1,251 +1,251 @@
-# 🔒 Guide de Sécurité - MCP Dev Tools
+# 🔒 Security Guide - MCP Dev Tools
 
-## 🎯 Vérification Automatique
+## 🎯 Automatic Verification
 
-### Script d'Audit Sécurité
+### Security Audit Script
 
 ```bash
 chmod +x security-audit.sh
 ./security-audit.sh
 ```
 
-Ce script vérifie:
-- ✅ Packages dépréciés
-- ✅ Vulnérabilités npm audit
-- ✅ Version Node.js
-- ✅ Packages connus comme vulnérables
+This script checks:
+- ✅ Deprecated packages
+- ✅ npm audit vulnerabilities
+- ✅ Node.js version
+- ✅ Known vulnerable packages
 
 ---
 
-## 📋 Checklist Sécurité Manuelle
+## 📋 Manual Security Checklist
 
-### Avant Chaque Build
+### Before Each Build
 
 ```bash
-# 1. Vérifier les packages outdated
+# 1. Check outdated packages
 npm outdated
 
-# 2. Audit de sécurité (production only)
+# 2. Security audit (production only)
 npm audit --production
 
-# 3. Vérifier les vulnérabilités critiques
+# 3. Check critical vulnerabilities
 npm audit --audit-level=high
 ```
 
-### Correction Automatique
+### Automatic Fix
 
 ```bash
-# Tenter correction auto (sans breaking changes)
+# Attempt auto fix (no breaking changes)
 npm audit fix
 
-# Correction aggressive (avec breaking changes)
+# Aggressive fix (with breaking changes)
 npm audit fix --force
 ```
 
 ---
 
-## 🚨 Packages à Éviter
+## 🚨 Packages to Avoid
 
-### Liste Noire (Dépréciés/Vulnérables)
+### Blacklist (Deprecated/Vulnerable)
 
-❌ **À ÉVITER**:
-- `request` - Déprécié, utiliser `node-fetch` ou `axios`
-- `chokidar@<3.5` - Versions anciennes vulnérables
-- `eslint@<9` - Anciennes versions dépréciées
-- `glob@<8` - Utiliser `fast-glob` à la place
-- `colors` - Package compromis en 2022
+❌ **AVOID**:
+- `request` - Deprecated, use `node-fetch` or `axios`
+- `chokidar@<3.5` - Old versions vulnerable
+- `eslint@<9` - Old versions deprecated
+- `glob@<8` - Use `fast-glob` instead
+- `colors` - Package compromised in 2022
 
-✅ **Alternatives Sécurisées**:
-- Pour HTTP: `node-fetch@3+`, `axios@1+`
-- Pour file watching: `chokidar@3.5+`
-- Pour globbing: `fast-glob@3.3+`
-- Pour linting: `eslint@9+`
+✅ **Safe Alternatives**:
+- For HTTP: `node-fetch@3+`, `axios@1+`
+- For file watching: `chokidar@3.5+`
+- For globbing: `fast-glob@3.3+`
+- For linting: `eslint@9+`
 
 ---
 
-## 📊 Dépendances Actuelles (v1.1.0)
+## 📊 Current Dependencies (v1.2.0)
 
 ### Production Dependencies
 
-| Package | Version | Sécurité | Notes |
+| Package | Version | Security | Notes |
 |---------|---------|----------|-------|
-| @modelcontextprotocol/sdk | ^0.6.0 | ✅ Sûr | Officiel Anthropic |
-| fast-glob | ^3.3.2 | ✅ Sûr | Actif, maintenu |
+| @modelcontextprotocol/sdk | ^1.20.1 | ✅ Safe | Official Anthropic |
+| fast-glob | ^3.3.2 | ✅ Safe | Active, maintained |
 
 ### Dev Dependencies
 
-| Package | Version | Sécurité | Notes |
+| Package | Version | Security | Notes |
 |---------|---------|----------|-------|
-| typescript | ^5.3.3 | ✅ Sûr | Dernière stable |
-| jest | ^29.7.0 | ✅ Sûr | Actif, maintenu |
-| eslint | ^9.0.0 | ✅ Sûr | Dernière version |
-| @typescript-eslint | ^7.0.0 | ✅ Sûr | Compatible ESLint 9 |
+| typescript | ^5.3.3 | ✅ Safe | Latest stable |
+| jest | ^30.2.0 | ✅ Safe | Active, maintained |
+| eslint | ^9.38.0 | ✅ Safe | Latest version |
+| @typescript-eslint | ^8.46.0 | ✅ Safe | ESLint 9 compatible |
 
 ---
 
-## 🔄 Processus de Mise à Jour
+## 🔄 Update Process
 
-### Mise à Jour Sécurité (Recommandé: Mensuel)
+### Security Update (Recommended: Monthly)
 
 ```bash
-# 1. Sauvegarder
+# 1. Backup
 git commit -am "Backup before security update"
 
-# 2. Vérifier ce qui est outdated
+# 2. Check what's outdated
 npm outdated
 
-# 3. Mettre à jour patches/minor (sûr)
+# 3. Update patches/minor (safe)
 npm update
 
 # 4. Audit
 npm audit
 
-# 5. Fix automatique
+# 5. Auto fix
 npm audit fix
 
-# 6. Rebuild et test
+# 6. Rebuild and test
 npm run build
 npm test
 
-# 7. Si OK, commit
+# 7. If OK, commit
 git add package*.json
 git commit -m "Security: Update dependencies"
 ```
 
-### Mise à Jour Major (Avec Précaution)
+### Major Update (With Caution)
 
 ```bash
-# Pour chaque package major outdated:
+# For each outdated major package:
 npm install package@latest
 
-# Puis test complet
+# Then complete test
 npm run build
 npm test
 ```
 
 ---
 
-## 🛡️ Bonnes Pratiques
+## 🛡️ Best Practices
 
 ### 1. Lock File
-✅ **Toujours commit** `package-lock.json`  
-Garantit reproductibilité et sécurité
+✅ **Always commit** `package-lock.json`  
+Guarantees reproducibility and security
 
-### 2. Audit Régulier
+### 2. Regular Audit
 ```bash
-# Ajouter dans CI/CD ou cron
+# Add to CI/CD or cron
 npm audit --production --audit-level=moderate
 ```
 
-### 3. Dépendances Minimum
-- Éviter les dépendances inutiles
-- Préférer les packages avec peu de sous-dépendances
-- Vérifier la maintenance (dernière release, issues, stars)
+### 3. Minimum Dependencies
+- Avoid unnecessary dependencies
+- Prefer packages with few sub-dependencies
+- Check maintenance (last release, issues, stars)
 
-### 4. Versions Précises en Production
-Pour production critique, utiliser versions exactes:
+### 4. Precise Versions in Production
+For critical production, use exact versions:
 ```json
 {
   "dependencies": {
-    "fast-glob": "3.3.2"  // Sans ^ pour version exacte
+    "fast-glob": "3.3.2"  // Without ^ for exact version
   }
 }
 ```
 
 ---
 
-## 🔍 Vérification Avant Installation
+## 🔍 Pre-Installation Verification
 
-Avant d'ajouter une nouvelle dépendance:
+Before adding a new dependency:
 
 ```bash
-# 1. Vérifier sur npm
+# 1. Check on npm
 npm view package-name
 
-# 2. Vérifier les vulnérabilités connues
+# 2. Check known vulnerabilities
 npm audit --package-lock-only
 
-# 3. Vérifier le repo GitHub
-# - Dernière release ?
-# - Issues ouvertes critiques ?
-# - Maintenance active ?
+# 3. Check GitHub repo
+# - Recent release?
+# - Critical open issues?
+# - Active maintenance?
 ```
 
-### Critères d'Évaluation
+### Evaluation Criteria
 
-✅ **Package Sûr**:
-- Release récente (< 6 mois)
-- Issues critiques traitées
+✅ **Safe Package**:
+- Recent release (< 6 months)
+- Critical issues addressed
 - Tests + CI/CD
-- >1000 stars (pour packages populaires)
-- Mainteneur actif
+- >1000 stars (for popular packages)
+- Active maintainer
 
-❌ **Package Suspect**:
-- Dernière release > 2 ans
-- Issues critiques non traitées
-- Pas de tests
-- Mainteneur inactif
-- Warnings de sécurité
+❌ **Suspicious Package**:
+- Last release > 2 years
+- Unaddressed critical issues
+- No tests
+- Inactive maintainer
+- Security warnings
 
 ---
 
-## 📈 Monitoring Continu
+## 📈 Continuous Monitoring
 
-### Outils Recommandés
+### Recommended Tools
 
 1. **Snyk** (https://snyk.io)
-   - Scan automatique vulnérabilités
-   - Intégration GitHub
+   - Automatic vulnerability scan
+   - GitHub integration
 
 2. **Dependabot** (GitHub)
-   - PRs auto pour updates sécurité
-   - Gratuit pour repos publics
+   - Auto PRs for security updates
+   - Free for public repos
 
 3. **npm audit**
-   - Intégré, toujours disponible
-   - Utiliser régulièrement
+   - Built-in, always available
+   - Use regularly
 
 ---
 
-## 🚨 En Cas de Vulnérabilité Critique
+## 🚨 In Case of Critical Vulnerability
 
-### Processus d'Urgence
+### Emergency Process
 
-1. **Identifier**
+1. **Identify**
 ```bash
 npm audit --audit-level=critical
 ```
 
-2. **Évaluer Impact**
-- Package en production ?
-- Exploitable dans notre contexte ?
-- Patch disponible ?
+2. **Assess Impact**
+- Package in production?
+- Exploitable in our context?
+- Patch available?
 
-3. **Corriger RAPIDEMENT**
+3. **Fix QUICKLY**
 ```bash
 # Option 1: Auto fix
 npm audit fix
 
-# Option 2: Update manuel
+# Option 2: Manual update
 npm install vulnerable-package@safe-version
 
-# Option 3: Remplacer
+# Option 3: Replace
 npm uninstall vulnerable-package
 npm install safe-alternative
 ```
 
-4. **Tester & Déployer**
+4. **Test & Deploy**
 ```bash
 npm run build
 npm test
-# Si OK → déployer immédiatement
+# If OK → deploy immediately
 ```
 
 ---
 
-## 📝 Changelog Sécurité
+## 📝 Security Changelog
 
-Garder trace des updates sécurité dans SECURITY.md:
+Keep track of security updates in SECURITY.md:
 
 ```markdown
 ## [Date] - Security Update
@@ -257,38 +257,38 @@ Garder trace des updates sécurité dans SECURITY.md:
 
 ---
 
-## ✅ Checklist Build de Production
+## ✅ Production Build Checklist
 
-Avant chaque release:
+Before each release:
 
-- [ ] `npm audit --production` → 0 vulnérabilités
-- [ ] `npm outdated` → Aucun package critique outdated
+- [ ] `npm audit --production` → 0 vulnerabilities
+- [ ] `npm outdated` → No critical outdated packages
 - [ ] `./security-audit.sh` → Passed
 - [ ] `npm test` → All tests pass
 - [ ] `npm run build` → Successful
-- [ ] Version bumped dans package.json
-- [ ] CHANGELOG.md mis à jour
+- [ ] Version bumped in package.json
+- [ ] CHANGELOG.md updated
 
 ---
 
-## 🎯 Pour Ce Projet (v1.1.0)
+## 🎯 For This Project (v1.2.0)
 
-### État Actuel
+### Current Status
 
-✅ **Dépendances Sûres**:
-- Seulement 2 deps production (minimal)
-- Versions récentes et maintenues
-- Aucune vulnérabilité critique connue
+✅ **Safe Dependencies**:
+- Only 2 production deps (minimal)
+- Recent and maintained versions
+- No known critical vulnerabilities
 
-⚠️ **À Surveiller**:
-- ESLint 9 (nouveau, possibles bugs)
-- MCP SDK (vérifier updates Anthropic)
+⚠️ **To Monitor**:
+- ESLint 9 (new, possible bugs)
+- MCP SDK (check Anthropic updates)
 
-### Prochaine Vérification
+### Next Check
 
-📅 **Recommandé**: Audit mensuel
+📅 **Recommended**: Monthly audit
 ```bash
-# Premier jour du mois
+# First day of month
 ./security-audit.sh
 npm audit
 npm outdated
@@ -296,6 +296,6 @@ npm outdated
 
 ---
 
-**🔒 La sécurité est continue, pas ponctuelle !**
+**🔒 Security is continuous, not one-time!**
 
-*Guide créé - 19 Octobre 2025*
+*Guide created - October 19-21, 2025*

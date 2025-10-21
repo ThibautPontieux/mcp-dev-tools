@@ -187,9 +187,9 @@ Claude will automatically use MCP Dev Tools!
 ## 📚 More Info
 
 - **Detailed installation**: `installation.md`
-- **Complete documentation**: Main `README.md`
+- **Complete documentation**: Main documentation index
 - **Bug fixes**: `lessons-learned.md`
-- **Complete summary**: `roadmap.md`
+- **Troubleshooting**: `troubleshooting.md`
 
 ---
 

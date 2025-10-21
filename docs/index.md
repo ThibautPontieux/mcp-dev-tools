@@ -11,42 +11,24 @@
 ## 🚀 Quick Navigation
 
 ### Getting Started
+- [🎯 Start Here](getting-started/index.md) - Your first MCP dev tools experience
 - [📖 Installation Guide](getting-started/installation.md) - Complete installation instructions
 - [⚡ Quick Start](getting-started/quickstart.md) - Get up and running in 5 minutes
-- [🎯 First Steps](getting-started/index.md) - Your first MCP dev tools experience
 
 ### User Guides
-- [📂 File Operations](guides/file-operations.md) - Working with files
-- [📁 Directory Operations](guides/directory-operations.md) - Managing directories
-- [🔍 Search Operations](guides/search-operations.md) - Advanced search features
 - [🔒 Security Guide](guides/security.md) - Security best practices
 - [✅ Testing Guide](guides/testing.md) - Testing your implementation
 - [🔄 Migration Guide](guides/migration.md) - Upgrading between versions
 
-### API Reference
-- [📚 API Overview](api/overview.md) - Complete API documentation
-- [📄 File Tools](api/file-tools.md) - File operation tools
-- [📁 Directory Tools](api/directory-tools.md) - Directory operation tools
-- [🔍 Search Tools](api/search-tools.md) - Search operation tools
-- [📋 Schemas](api/schemas.md) - Input/output schemas
-
 ### Development
-- [👨‍💻 Contributing](development/contributing.md) - How to contribute
-- [🏗️ Architecture](development/architecture.md) - System architecture
 - [🤖 Working with Claude](development/working-with-claude.md) - AI collaboration guide
 - [📦 Package Management](development/package-management.md) - Dependency management
-- [🔄 Autonomous Workflow](development/autonomous-workflow.md) - Automated workflows
 - [💡 Lessons Learned](development/lessons-learned.md) - Project insights
 
 ### Maintenance
-- [📦 Package Updates](maintenance/package-updates.md) - Keeping dependencies updated
 - [🔧 Build Fixes](maintenance/build-fixes.md) - Common build issues
 - [🆘 Troubleshooting](maintenance/troubleshooting.md) - Problem solving
 - [📝 Changelog](maintenance/changelog.md) - Version history
-
-### Specifications
-- [📋 Phases 4-5](specs/phases-4-5.md) - Implementation phases
-- [🗺️ Roadmap](specs/roadmap.md) - Future plans
 
 ---
 
@@ -61,7 +43,7 @@
 🤖 **85% Autonomous** - Automated package management & validation  
 📦 **Zero Vulnerabilities** - All dependencies up-to-date and secure  
 ✨ **TypeScript** - Full type safety with strict mode  
-📚 **Comprehensive Docs** - 20+ documentation files  
+📚 **Comprehensive Docs** - Complete documentation in English  
 
 ### Statistics
 
@@ -72,7 +54,7 @@
 | **Security Issues** | 0 |
 | **Build Status** | ✅ Passing |
 | **Test Coverage** | Ready for tests |
-| **Documentation** | 100% complete |
+| **Documentation** | Complete |
 
 ---
 
@@ -93,26 +75,110 @@ npm install @mcp-servers/dev-tools
 ## 🛠️ Available Tools
 
 ### File Operations (7)
-1. `read_file` - Read file contents
-2. `write_file` - Create/write files
-3. `rename_file` - Rename or move files
-4. `delete_file` - Delete files (with backup)
-5. `copy_file` - Copy files
-6. `file_exists` - Check file existence
-7. `get_file_info` - Get file metadata
+
+1. **`read_file`** - Read file contents
+   - Supports text and binary files
+   - UTF-8 and Base64 encoding
+   - Size limits for safety
+
+2. **`write_file`** - Create/write files
+   - Automatic parent directory creation
+   - Overwrite protection
+   - Backup on overwrite
+
+3. **`rename_file`** - Rename or move files
+   - Atomic operations
+   - Automatic directory creation
+   - Backup support
+
+4. **`delete_file`** - Delete files (with backup)
+   - Mandatory confirmation
+   - Automatic backup creation
+   - Safe deletion with validation
+
+5. **`copy_file`** - Copy files
+   - Timestamp preservation
+   - Overwrite protection
+   - Progress for large files
+
+6. **`file_exists`** - Check file existence
+   - Returns existence status
+   - File type detection
+   - Fast validation
+
+7. **`get_file_info`** - Get file metadata
+   - Size, timestamps, permissions
+   - MIME type detection
+   - Complete file information
 
 ### Directory Operations (4)
-8. `list_directory` - List directory contents with filters
-9. `create_directory` - Create directories
-10. `delete_directory` - Delete directories (secure)
-11. `move_directory` - Move/rename directories
+
+8. **`list_directory`** - List directory contents with filters
+   - Recursive traversal with depth control
+   - File type filtering (by extension)
+   - Multiple sort options (name, size, modified)
+   - Hidden file inclusion
+   - Pattern matching (glob support)
+   - Statistics (total files, directories, size)
+
+9. **`create_directory`** - Create directories
+   - Recursive parent creation
+   - Unix permissions support
+   - Duplicate detection
+   - Safe path validation
+
+10. **`delete_directory`** - Delete directories (secure)
+    - Mandatory confirmation requirement
+    - Recursive deletion support
+    - Automatic backup creation
+    - Content counting before deletion
+    - Force flag for non-empty directories
+
+11. **`move_directory`** - Move/rename directories
+    - Directory merging support
+    - Automatic backup on overwrite
+    - Content preservation
+    - Cross-directory moves
 
 ### Search Operations (3)
-12. `search_files` - Search files by name/pattern
-13. `search_content` - Search within file contents
-14. `find_duplicates` - Find duplicate files
 
-[See full API reference →](api/overview.md)
+12. **`search_files`** - Search files by name/pattern
+    - Name/pattern matching (glob and regex)
+    - Case-sensitive/insensitive options
+    - File type filtering
+    - Relevance scoring
+    - Result caching (5 min TTL)
+    - Exclusion patterns
+    - Max results limit
+
+13. **`search_content`** - Search within file contents
+    - Full-text search (grep-like)
+    - Regex support
+    - Whole word matching
+    - Context lines (before/after)
+    - File type filtering
+    - Binary file detection and skip
+    - Line number and column tracking
+
+14. **`find_duplicates`** - Find duplicate files
+    - Hash-based comparison (MD5)
+    - Name-based comparison
+    - Size+name comparison options
+    - Wasted space calculation
+    - Original file marking
+    - Size filtering (min/max)
+    - Result caching (15 min TTL)
+
+---
+
+## 🔒 Security Features
+
+- **Path Validation** - Prevents path traversal attacks
+- **Rate Limiting** - Configurable limits per operation
+- **Protected Paths** - Automatically excludes sensitive directories
+- **Backup System** - Automatic backups before destructive operations
+- **Logging** - Complete operation logging for audit
+- **Workspace Isolation** - Operations limited to workspace directory
 
 ---
 
@@ -121,18 +187,16 @@ npm install @mcp-servers/dev-tools
 ```
 docs/
 ├── getting-started/    # Installation & quick start
-├── guides/            # User guides by topic
-├── api/              # Complete API reference
-├── development/      # For contributors
-├── maintenance/      # Keeping up-to-date
-└── specs/           # Technical specifications
+├── guides/            # User guides (security, testing, migration)
+├── development/       # For contributors
+└── maintenance/       # Keeping up-to-date
 ```
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions! See our [Contributing Guide](development/contributing.md) for details.
+We welcome contributions! See our [Working with Claude](development/working-with-claude.md) guide for development guidelines.
 
 ---
 

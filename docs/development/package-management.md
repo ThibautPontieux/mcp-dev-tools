@@ -1,274 +1,274 @@
 # 📦 Package Management Guide
 
-## 🎯 Objectif
+## 🎯 Objective
 
-Ce guide définit les processus pour gérer, analyser et maintenir les dépendances du projet MCP Dev Tools de manière sécurisée et optimale.
+This guide defines processes for managing, analyzing, and maintaining MCP Dev Tools project dependencies in a secure and optimal manner.
 
 ---
 
-## 🔍 Checklist d'Analyse des Packages
+## 🔍 Package Analysis Checklist
 
-### ✅ **Sécurité** (CRITIQUE)
+### ✅ **Security** (CRITICAL)
 
-- [ ] **Vulnérabilités** : `npm audit --production`
-- [ ] **Packages compromis** : Vérifier liste noire (colors, node-ipc)
-- [ ] **Licences** : Vérifier compatibilité (MIT, Apache-2.0, ISC OK)
-- [ ] **Typosquatting** : Vérifier noms de packages suspects
+- [ ] **Vulnerabilities**: `npm audit --production`
+- [ ] **Compromised packages**: Check blacklist (colors, node-ipc)
+- [ ] **Licenses**: Verify compatibility (MIT, Apache-2.0, ISC OK)
+- [ ] **Typosquatting**: Check suspicious package names
 
 ### ✅ **Obsolescence**
 
-- [ ] **Packages dépréciés** : Vérifier warnings npm
-- [ ] **Dernière mise à jour** : Packages non maintenus > 2 ans
-- [ ] **Alternatives modernes** : Rechercher remplacements
+- [ ] **Deprecated packages**: Check npm warnings
+- [ ] **Last update**: Unmaintained packages > 2 years
+- [ ] **Modern alternatives**: Search for replacements
 
-### ✅ **Mises à Jour**
+### ✅ **Updates**
 
-- [ ] **Outdated** : `npm outdated`
-- [ ] **Breaking changes** : Vérifier changelog pour major updates
-- [ ] **Peer dependencies** : Vérifier compatibilité
+- [ ] **Outdated**: `npm outdated`
+- [ ] **Breaking changes**: Check changelog for major updates
+- [ ] **Peer dependencies**: Verify compatibility
 
-### ✅ **Qualité**
+### ✅ **Quality**
 
-- [ ] **Packages inutilisés** : Vérifier imports dans le code
-- [ ] **Taille** : Analyser bundle size
-- [ ] **Popularité** : Vérifier downloads/semaine sur npmjs.com
-- [ ] **Maintenance active** : Dernière release < 6 mois
+- [ ] **Unused packages**: Check imports in code
+- [ ] **Size**: Analyze bundle size
+- [ ] **Popularity**: Check downloads/week on npmjs.com
+- [ ] **Active maintenance**: Last release < 6 months
 
-### ✅ **Compatibilité**
+### ✅ **Compatibility**
 
-- [ ] **Node.js version** : Vérifier engines dans package.json
-- [ ] **TypeScript** : Vérifier types disponibles
-- [ ] **Conflits** : Tester installation propre
+- [ ] **Node.js version**: Check engines in package.json
+- [ ] **TypeScript**: Verify types available
+- [ ] **Conflicts**: Test clean installation
 
 ---
 
-## 🚀 Workflow de Gestion
+## 🚀 Management Workflow
 
-### **1. Analyse Régulière** (Mensuel)
+### **1. Regular Analysis** (Monthly)
 
 ```bash
-# Exécuter l'analyseur complet
+# Run complete analyzer
 chmod +x package-analyzer.sh
 ./package-analyzer.sh
 ```
 
-**Résultat** : Rapport détaillé avec actions recommandées
+**Result**: Detailed report with recommended actions
 
 ---
 
-### **2. Avant d'Ajouter un Package**
+### **2. Before Adding a Package**
 
 ```bash
-# Vérifier popularité et maintenance
+# Check popularity and maintenance
 npm view <package-name>
 
-# Vérifier vulnérabilités connues
+# Check known vulnerabilities
 npm audit --package-lock-only
 
-# Vérifier taille
+# Check size
 npm view <package-name> dist.tarball
 
-# Installer en dev d'abord
+# Install in dev first
 npm install --save-dev <package-name>
 
-# Tester
+# Test
 npm run build
 npm test
 
-# Si OK, commit
+# If OK, commit
 git add package.json package-lock.json
 ```
 
-**Critères de décision** :
-- ✅ Downloads > 10k/semaine (pour packages populaires)
-- ✅ Dernière release < 6 mois
-- ✅ Issues critiques < 5 ouvertes
-- ✅ Tests + CI/CD présents
-- ✅ Documentation complète
+**Decision criteria**:
+- ✅ Downloads > 10k/week (for popular packages)
+- ✅ Last release < 6 months
+- ✅ Critical issues < 5 open
+- ✅ Tests + CI/CD present
+- ✅ Complete documentation
 
 ---
 
-### **3. Mise à Jour des Packages**
+### **3. Package Updates**
 
-#### **A. Mises à jour mineures/patches (Safe)**
+#### **A. Minor/patch updates (Safe)**
 
 ```bash
-# Voir ce qui sera mis à jour
+# See what will be updated
 npm outdated
 
-# Mettre à jour (respecte semver)
+# Update (respects semver)
 npm update
 
-# Vérifier
+# Verify
 npm run build
 npm test
 ./pre-commit-check.sh
 ```
 
-#### **B. Mises à jour majeures (Breaking)**
+#### **B. Major updates (Breaking)**
 
 ```bash
 # Backup
 git commit -am "Backup before major update"
 
-# Lire le changelog
+# Read changelog
 npm view <package-name> versions
 npm view <package-name>@latest
 
-# Mise à jour
+# Update
 npm install <package-name>@latest
 
-# Tester extensivement
+# Test extensively
 npm run build
 npm test
 
-# Si erreurs, corriger ou rollback
-# Si OK, commit
+# If errors, fix or rollback
+# If OK, commit
 git add package*.json
 git commit -m "Update <package-name> to vX.Y.Z"
 ```
 
 ---
 
-### **4. Remplacement de Package Déprécié**
+### **4. Deprecated Package Replacement**
 
-**Exemple : eslint@8 → eslint@9**
+**Example: eslint@8 → eslint@9**
 
 ```bash
-# 1. Lire le guide de migration
+# 1. Read migration guide
 # eslint.org/docs/latest/use/migrate-to-9.0.0
 
-# 2. Désinstaller ancien
+# 2. Uninstall old
 npm uninstall eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
 
-# 3. Installer nouveau
+# 3. Install new
 npm install --save-dev eslint@9 \
   @typescript-eslint/eslint-plugin@latest \
   @typescript-eslint/parser@latest
 
-# 4. Mettre à jour config
+# 4. Update config
 # .eslintrc.json → eslint.config.js (flat config)
 
-# 5. Tester
+# 5. Test
 npm run lint
 
-# 6. Fix automatique si possible
+# 6. Auto fix if possible
 npm run lint:fix
 
-# 7. Valider
+# 7. Validate
 npm run build
 ./pre-commit-check.sh
 ```
 
 ---
 
-### **5. Nettoyage des Packages Inutilisés**
+### **5. Unused Package Cleanup**
 
 ```bash
-# Détecter via analyseur
+# Detect via analyzer
 ./package-analyzer.sh
 
-# Vérifier manuellement
+# Manually verify
 grep -r "from '<package-name>'" src/
 
-# Si vraiment inutilisé
+# If truly unused
 npm uninstall <package-name>
 
-# Vérifier que tout fonctionne
+# Verify everything works
 npm run build
 npm test
 ```
 
 ---
 
-## 🗂️ Base de Données des Packages
+## 🗂️ Package Database
 
-### **Packages Dépréciés à Remplacer**
+### **Deprecated Packages to Replace**
 
-| Déprécié | Remplacement | Raison |
-|----------|--------------|--------|
-| `request` | `axios` ou `node-fetch` | Non maintenu depuis 2020 |
-| `node-sass` | `sass` (Dart Sass) | Déprécié par l'équipe Sass |
-| `colors@1.4.x` | `chalk` ou `picocolors` | Package compromis en 2022 |
-| `babel-eslint` | `@babel/eslint-parser` | Renommé |
-| `tslint` | `eslint` + `@typescript-eslint` | TSLint déprécié |
-| `eslint@7/8` | `eslint@9` | Nouvelles versions disponibles |
+| Deprecated | Replacement | Reason |
+|------------|-------------|--------|
+| `request` | `axios` or `node-fetch` | Unmaintained since 2020 |
+| `node-sass` | `sass` (Dart Sass) | Deprecated by Sass team |
+| `colors@1.4.x` | `chalk` or `picocolors` | Package compromised in 2022 |
+| `babel-eslint` | `@babel/eslint-parser` | Renamed |
+| `tslint` | `eslint` + `@typescript-eslint` | TSLint deprecated |
+| `eslint@7/8` | `eslint@9` | New versions available |
 
-### **Packages à Surveiller**
+### **Packages to Monitor**
 
 | Package | Note | Action |
 |---------|------|--------|
-| `node-ipc` | Code malveillant en 2022 | Vérifier version > 10.1.1 |
-| `event-stream` | Compromis en 2018 | Éviter si possible |
-| `flatmap-stream` | Compromis en 2018 | Éviter |
+| `node-ipc` | Malicious code in 2022 | Verify version > 10.1.1 |
+| `event-stream` | Compromised in 2018 | Avoid if possible |
+| `flatmap-stream` | Compromised in 2018 | Avoid |
 
-### **Packages Recommandés**
+### **Recommended Packages**
 
-| Besoin | Package | Raison |
-|--------|---------|--------|
-| HTTP Client | `axios@1.x` | Populaire, bien maintenu |
+| Need | Package | Reason |
+|------|---------|--------|
+| HTTP Client | `axios@1.x` | Popular, well maintained |
 | File Watching | `chokidar@3.5+` | Performant, cross-platform |
-| Glob Patterns | `fast-glob@3.3+` | Plus rapide que glob |
-| CLI Colors | `chalk@5.x` | Standard de facto |
-| Date/Time | `date-fns` | Modulaire, tree-shakeable |
+| Glob Patterns | `fast-glob@3.3+` | Faster than glob |
+| CLI Colors | `chalk@5.x` | De facto standard |
+| Date/Time | `date-fns` | Modular, tree-shakeable |
 
 ---
 
-## 🔒 Sécurité
+## 🔒 Security
 
-### **Audit Automatique**
+### **Automatic Audit**
 
 ```bash
 # Audit production only
 npm audit --production
 
-# Audit complet
+# Complete audit
 npm audit
 
-# Fix automatique
+# Auto fix
 npm audit fix
 
-# Fix avec breaking changes
+# Fix with breaking changes
 npm audit fix --force
 ```
 
-### **Vérification Manuelle**
+### **Manual Verification**
 
 ```bash
-# Vérifier un package spécifique
+# Check specific package
 npm view <package-name> versions
 npm view <package-name> repository
 npm view <package-name> maintainers
 
-# Vérifier sur npmjs.com
-# - Date dernière release
-# - Nombre de downloads
-# - Dépendances
-# - Issues GitHub
+# Check on npmjs.com
+# - Last release date
+# - Download count
+# - Dependencies
+# - GitHub issues
 ```
 
-### **Liste Noire**
+### **Blacklist**
 
-**NE JAMAIS utiliser** :
-- `colors@1.4.1` ou `1.4.2` (compromis)
-- `node-ipc@<10.1.1` (malveillant)
-- Packages avec typosquatting connu
+**NEVER use**:
+- `colors@1.4.1` or `1.4.2` (compromised)
+- `node-ipc@<10.1.1` (malicious)
+- Packages with known typosquatting
 
 ---
 
-## 📊 Monitoring Continu
+## 📊 Continuous Monitoring
 
-### **Outils Recommandés**
+### **Recommended Tools**
 
 1. **Snyk** (https://snyk.io)
-   - Scan automatique vulnérabilités
-   - Intégration GitHub
-   - Gratuit pour open source
+   - Automatic vulnerability scan
+   - GitHub integration
+   - Free for open source
 
 2. **Dependabot** (GitHub)
-   - PRs automatiques pour updates sécurité
-   - Intégré GitHub
-   - Gratuit
+   - Automatic PRs for security updates
+   - Integrated GitHub
+   - Free
 
 3. **npm-check-updates**
    ```bash
@@ -280,46 +280,46 @@ npm view <package-name> maintainers
    npx depcheck
    ```
 
-### **Fréquence Recommandée**
+### **Recommended Frequency**
 
-| Action | Fréquence |
+| Action | Frequency |
 |--------|-----------|
-| `npm audit` | Hebdomadaire |
-| `./package-analyzer.sh` | Mensuel |
-| Mise à jour patches | Mensuel |
-| Mise à jour minors | Trimestriel |
-| Mise à jour majors | Selon besoin + tests |
-| Revue complète | Annuel |
+| `npm audit` | Weekly |
+| `./package-analyzer.sh` | Monthly |
+| Patch updates | Monthly |
+| Minor updates | Quarterly |
+| Major updates | As needed + tests |
+| Complete review | Annual |
 
 ---
 
-## 🎯 Processus de Décision
+## 🎯 Decision Process
 
-### **Faut-il mettre à jour ?**
+### **Should we update?**
 
 ```
-┌─ Vulnérabilité critique ?
-│  └─ OUI → Mettre à jour IMMÉDIATEMENT
-│  └─ NON ↓
+┌─ Critical vulnerability?
+│  └─ YES → Update IMMEDIATELY
+│  └─ NO ↓
 │
-├─ Package déprécié ?
-│  └─ OUI → Planifier remplacement
-│  └─ NON ↓
+├─ Deprecated package?
+│  └─ YES → Plan replacement
+│  └─ NO ↓
 │
-├─ Breaking changes ?
-│  └─ OUI → Analyser impact + Tests
-│  └─ NON ↓
+├─ Breaking changes?
+│  └─ YES → Analyze impact + Tests
+│  └─ NO ↓
 │
-└─ Fonctionnalités utiles ?
-   └─ OUI → Mettre à jour
-   └─ NON → Garder version actuelle
+└─ Useful features?
+   └─ YES → Update
+   └─ NO → Keep current version
 ```
 
 ---
 
-## 📝 Documentation des Changements
+## 📝 Change Documentation
 
-### **Template Commit Message**
+### **Commit Message Template**
 
 ```
 deps: update <package> from vX to vY
@@ -346,19 +346,19 @@ Refs: #issue-number
 
 ---
 
-## 🚨 Que Faire en Cas de Problème
+## 🚨 Troubleshooting
 
-### **Rollback Rapide**
+### **Quick Rollback**
 
 ```bash
-# Restaurer package.json et package-lock.json
+# Restore package.json and package-lock.json
 git checkout package*.json
 
-# Réinstaller
+# Reinstall
 rm -rf node_modules
 npm install
 
-# Vérifier
+# Verify
 npm run build
 ```
 
@@ -378,32 +378,32 @@ npm ls
 
 ---
 
-## ✅ Checklist Avant Production
+## ✅ Pre-Production Checklist
 
-Avant de merger des changements de dépendances :
+Before merging dependency changes:
 
 - [ ] `./package-analyzer.sh` → Passed
 - [ ] `npm audit --production` → 0 vulnerabilities
 - [ ] `npm run build` → Success
-- [ ] `npm test` → All pass (si tests disponibles)
+- [ ] `npm test` → All pass (if tests available)
 - [ ] `./pre-commit-check.sh` → Passed
-- [ ] Changelog mis à jour
-- [ ] Breaking changes documentés
-- [ ] Migration guide (si nécessaire)
+- [ ] Changelog updated
+- [ ] Breaking changes documented
+- [ ] Migration guide (if necessary)
 
 ---
 
-## 📞 Ressources
+## 📞 Resources
 
-- **npm documentation** : https://docs.npmjs.com/
-- **Semver** : https://semver.org/
-- **Node.js LTS** : https://nodejs.org/en/about/releases/
-- **Security Best Practices** : https://snyk.io/learn/
+- **npm documentation**: https://docs.npmjs.com/
+- **Semver**: https://semver.org/
+- **Node.js LTS**: https://nodejs.org/en/about/releases/
+- **Security Best Practices**: https://snyk.io/learn/
 
 ---
 
 **Version**: 1.2.0  
-**Dernière mise à jour**: 20 Octobre 2025  
-**Mainteneur**: Dev Team
+**Last updated**: October 20, 2025  
+**Maintainer**: Dev Team
 
-*Ce guide évolue avec les meilleures pratiques de l'industrie.*
+*This guide evolves with industry best practices.*

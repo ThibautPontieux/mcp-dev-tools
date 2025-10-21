@@ -1,12 +1,12 @@
-# 🧪 Guide de Test - MCP Dev Tools v1.1.0
+# 🧪 Testing Guide - MCP Dev Tools v1.2.0
 
-## ✅ Checklist de Validation Complète
+## ✅ Complete Validation Checklist
 
 ---
 
 ## 🔨 1. Build & Compilation
 
-### Étape 1: Clean Build
+### Step 1: Clean Build
 ```bash
 cd packages/dev-tools
 npm run clean
@@ -14,23 +14,23 @@ npm install
 npm run build
 ```
 
-**Résultat attendu**:
+**Expected result**:
 ```
 ✓ Compilation successful
 ✓ dist/ directory created
 ✓ No TypeScript errors
 ```
 
-**Si erreurs**: Voir `BUILD_FIXES.md`
+**If errors**: See `build-fixes.md`
 
 ---
 
-### Étape 2: Validation Structure
+### Step 2: Structure Validation
 ```bash
 node validate.js
 ```
 
-**Résultat attendu**:
+**Expected result**:
 ```
 ✓ All structure checks passed
 ✓ All files present
@@ -39,30 +39,32 @@ node validate.js
 
 ---
 
-### Étape 3: Type Checking
+### Step 3: Type Checking
 ```bash
 npm run type-check
 ```
 
-**Résultat attendu**: Aucune erreur TypeScript
+**Expected result**: No TypeScript errors
 
 ---
 
-## 🧪 2. Tests Fonctionnels (Optionnel)
+## 🧪 2. Functional Tests (Optional)
 
-### Tests Unitaires (si créés)
+### Unit Tests (if created)
 ```bash
 npm test
 ```
 
-### Test Manuel Rapide
+### Quick Manual Test
 
-Créer un fichier de test: `test-tools.js`
+Create a test file: `test-tools.js`
 
 ```javascript
-// Test rapide des 12 outils MCP
+// Quick test of 14 MCP tools
 const tools = [
   // File Operations
+  'read_file',
+  'write_file',
   'rename_file',
   'delete_file', 
   'copy_file',
@@ -81,24 +83,24 @@ const tools = [
   'find_duplicates'
 ];
 
-console.log(`✓ ${tools.length} outils MCP définis`);
+console.log(`✓ ${tools.length} MCP tools defined`);
 console.log('Tools:', tools.join(', '));
 ```
 
-Exécuter: `node test-tools.js`
+Execute: `node test-tools.js`
 
 ---
 
-## 🔧 3. Configuration Claude Desktop
+## 🔧 3. Claude Desktop Configuration
 
-### Vérifier le chemin
+### Verify path
 ```bash
 pwd
-# Note le chemin absolu
+# Note the absolute path
 ```
 
-### Configuration JSON
-Éditer `claude_desktop_config.json`:
+### JSON Configuration
+Edit `claude_desktop_config.json`:
 
 ```json
 {
@@ -106,10 +108,10 @@ pwd
     "dev-tools": {
       "command": "node",
       "args": [
-        "/CHEMIN/ABSOLU/vers/packages/dev-tools/dist/index.js"
+        "/ABSOLUTE/PATH/to/packages/dev-tools/dist/index.js"
       ],
       "env": {
-        "WORKSPACE_DIR": "/ton/workspace",
+        "WORKSPACE_DIR": "/your/workspace",
         "BACKUP_ENABLED": "true",
         "LOG_LEVEL": "INFO"
       }
@@ -118,198 +120,201 @@ pwd
 }
 ```
 
-**⚠️ Remplacer** `/CHEMIN/ABSOLU/vers/` par ton vrai chemin!
+**⚠️ Replace** `/ABSOLUTE/PATH/to/` with your actual path!
 
 ---
 
-## 🎯 4. Tests Avec Claude
+## 🎯 4. Tests With Claude
 
-### Test 1: File Operations (Existantes - déjà testées)
+### Test 1: File Operations
+
 ```
 Can you check if package.json exists?
 ```
-✅ **Attendu**: Claude utilise `file_exists`
+✅ **Expected**: Claude uses `file_exists`
 
 ---
 
-### Test 2: Directory Operations (NOUVEAUX)
+### Test 2: Directory Operations
 
 #### Test 2.1: list_directory
 ```
 List all files in the src/ directory
 ```
-✅ **Attendu**: Liste des fichiers dans src/
+✅ **Expected**: List of files in src/
 
 #### Test 2.2: create_directory  
 ```
 Create a directory called test-dir
 ```
-✅ **Attendu**: Dossier créé
+✅ **Expected**: Directory created
 
-#### Test 2.3: Vérification
+#### Test 2.3: Verification
 ```
 Check if test-dir exists
 ```
-✅ **Attendu**: Confirmation existence
+✅ **Expected**: Existence confirmation
 
 #### Test 2.4: delete_directory
 ```
 Delete the test-dir directory
 ```
-✅ **Attendu**: Claude demande confirmation, puis supprime
+✅ **Expected**: Claude asks for confirmation, then deletes
 
 ---
 
-### Test 3: Search Operations (NOUVEAUX)
+### Test 3: Search Operations
 
 #### Test 3.1: search_files
 ```
 Find all TypeScript files in the project
 ```
-✅ **Attendu**: Liste de fichiers .ts
+✅ **Expected**: List of .ts files
 
 #### Test 3.2: search_content
 ```
 Search for the word "export" in all TypeScript files
 ```
-✅ **Attendu**: Fichiers contenant "export" avec contexte
+✅ **Expected**: Files containing "export" with context
 
-#### Test 3.3: find_duplicates (si applicable)
+#### Test 3.3: find_duplicates (if applicable)
 ```
 Find any duplicate files in the project
 ```
-✅ **Attendu**: Liste des doublons (ou aucun si pas de doublons)
+✅ **Expected**: List of duplicates (or none if no duplicates)
 
 ---
 
-## 📊 5. Vérification Logs
+## 📊 5. Log Verification
 
-### Logs créés
+### Logs created
 ```bash
 ls -la .logs/
 ```
-✅ **Attendu**: Fichiers de logs créés
+✅ **Expected**: Log files created
 
-### Contenu logs
+### Log contents
 ```bash
 tail -f .logs/dev-tools-*.log
 ```
-✅ **Attendu**: Entrées JSON pour chaque opération
+✅ **Expected**: JSON entries for each operation
 
 ---
 
-## 🔒 6. Tests de Sécurité
+## 🔒 6. Security Tests
 
 ### Test Path Traversal
 ```
 Try to access ../../../etc/passwd
 ```
-✅ **Attendu**: Erreur "Invalid path: Path traversal detected"
+✅ **Expected**: Error "Invalid path: Path traversal detected"
 
 ### Test Protected Paths
 ```
 Try to delete node_modules directory
 ```
-✅ **Attendu**: Erreur "Path is protected"
+✅ **Expected**: Error "Path is protected"
 
-### Test Rate Limiting (si activé)
-Faire 100 requêtes `list_directory` rapidement
-✅ **Attendu**: Après limite, erreur "Rate limit exceeded"
+### Test Rate Limiting (if enabled)
+Make 100 `list_directory` requests quickly
+✅ **Expected**: After limit, error "Rate limit exceeded"
 
 ---
 
 ## 📈 7. Performance
 
-### Test 1: Liste grande structure
+### Test 1: List large structure
 ```
 List all files recursively in a large directory
 ```
-✅ **Attendu**: Complète en < 5 secondes pour ~1000 fichiers
+✅ **Expected**: Completes in < 5 seconds for ~1000 files
 
-### Test 2: Recherche contenu
+### Test 2: Content search
 ```
 Search for "function" in all TypeScript files
 ```
-✅ **Attendu**: Complète en < 10 secondes
+✅ **Expected**: Completes in < 10 seconds
 
-### Test 3: Détection doublons
+### Test 3: Duplicate detection
 ```
 Find duplicates by hash in the entire project
 ```
-✅ **Attendu**: Complète en < 30 secondes
+✅ **Expected**: Completes in < 30 seconds
 
 ---
 
-## 🐛 8. Tests d'Erreurs
+## 🐛 8. Error Tests
 
-### Fichier inexistant
+### Nonexistent file
 ```
 Get info about nonexistent-file.txt
 ```
-✅ **Attendu**: `{ success: true, exists: false }`
+✅ **Expected**: `{ success: true, exists: false }`
 
-### Dossier inexistant
+### Nonexistent directory
 ```
 List contents of nonexistent-directory
 ```
-✅ **Attendu**: Erreur "Directory not found"
+✅ **Expected**: Error "Directory not found"
 
-### Confirmation manquante
+### Missing confirmation
 ```
 Delete a directory without confirming
 ```
-✅ **Attendu**: Erreur "confirm parameter must be true"
+✅ **Expected**: Error "confirm parameter must be true"
 
 ---
 
-## ✅ Checklist Complète
+## ✅ Complete Checklist
 
 ### Build & Installation
-- [ ] `npm run build` réussit
-- [ ] `node validate.js` passe
-- [ ] `npm run type-check` sans erreurs
-- [ ] `dist/` contient tous les fichiers
+- [ ] `npm run build` succeeds
+- [ ] `node validate.js` passes
+- [ ] `npm run type-check` no errors
+- [ ] `dist/` contains all files
 
 ### Configuration
-- [ ] `claude_desktop_config.json` configuré
-- [ ] Chemin absolu correct
-- [ ] Variables d'environnement définies
-- [ ] Claude Desktop redémarré
+- [ ] `claude_desktop_config.json` configured
+- [ ] Correct absolute path
+- [ ] Environment variables defined
+- [ ] Claude Desktop restarted
 
-### Tests File Operations (Existants)
-- [ ] `rename_file` fonctionne
-- [ ] `delete_file` fonctionne
-- [ ] `copy_file` fonctionne
-- [ ] `file_exists` fonctionne
-- [ ] `get_file_info` fonctionne
+### Tests File Operations
+- [ ] `read_file` works
+- [ ] `write_file` works
+- [ ] `rename_file` works
+- [ ] `delete_file` works
+- [ ] `copy_file` works
+- [ ] `file_exists` works
+- [ ] `get_file_info` works
 
-### Tests Directory Operations (NOUVEAUX)
-- [ ] `list_directory` fonctionne
-- [ ] `create_directory` fonctionne
-- [ ] `delete_directory` fonctionne (avec confirm)
-- [ ] `move_directory` fonctionne
+### Tests Directory Operations
+- [ ] `list_directory` works
+- [ ] `create_directory` works
+- [ ] `delete_directory` works (with confirm)
+- [ ] `move_directory` works
 
-### Tests Search Operations (NOUVEAUX)
-- [ ] `search_files` fonctionne
-- [ ] `search_content` fonctionne
-- [ ] `find_duplicates` fonctionne
+### Tests Search Operations
+- [ ] `search_files` works
+- [ ] `search_content` works
+- [ ] `find_duplicates` works
 
-### Sécurité
-- [ ] Path traversal bloqué
-- [ ] Protected paths respectés
-- [ ] Rate limiting fonctionne (si activé)
-- [ ] Logs créés correctement
+### Security
+- [ ] Path traversal blocked
+- [ ] Protected paths respected
+- [ ] Rate limiting works (if enabled)
+- [ ] Logs created correctly
 
 ### Performance
-- [ ] Opérations rapides (< 5s)
-- [ ] Cache fonctionne (résultats instantanés)
-- [ ] Pas de memory leaks
+- [ ] Fast operations (< 5s)
+- [ ] Cache works (instant results)
+- [ ] No memory leaks
 
 ---
 
-## 🚨 En Cas de Problème
+## 🚨 Troubleshooting
 
-### Erreur: "Module not found"
+### Error: "Module not found"
 ```bash
 cd packages/dev-tools
 rm -rf node_modules package-lock.json
@@ -317,38 +322,38 @@ npm install
 npm run build
 ```
 
-### Erreur: "Invalid path"
-Vérifier que `WORKSPACE_DIR` est correct dans la config
+### Error: "Invalid path"
+Verify that `WORKSPACE_DIR` is correct in config
 
-### Erreur: "Rate limit exceeded"
-Soit:
-- Attendre 1 minute
-- Ou désactiver: `"RATE_LIMIT_ENABLED": "false"`
+### Error: "Rate limit exceeded"
+Either:
+- Wait 1 minute
+- Or disable: `"RATE_LIMIT_ENABLED": "false"`
 
-### Claude ne voit pas les nouveaux outils
-1. Vérifier que la version affichée est 1.1.0
-2. Redémarrer Claude Desktop complètement
-3. Vérifier les logs du serveur MCP
+### Claude doesn't see new tools
+1. Verify displayed version is 1.2.0
+2. Completely restart Claude Desktop
+3. Check MCP server logs
 
 ---
 
-## 📝 Rapport de Test
+## 📝 Test Report
 
-Après avoir testé, remplir:
+After testing, fill out:
 
-**Date du test**: _______________
+**Test date**: _______________
 
-**Version**: 1.1.0
+**Version**: 1.2.0
 
-**Résultats**:
-- Build: ☐ OK ☐ ERREUR
-- File ops: ☐ OK ☐ ERREUR  
-- Directory ops: ☐ OK ☐ ERREUR
-- Search ops: ☐ OK ☐ ERREUR
-- Sécurité: ☐ OK ☐ ERREUR
-- Performance: ☐ OK ☐ ERREUR
+**Results**:
+- Build: ☐ OK ☐ ERROR
+- File ops: ☐ OK ☐ ERROR  
+- Directory ops: ☐ OK ☐ ERROR
+- Search ops: ☐ OK ☐ ERROR
+- Security: ☐ OK ☐ ERROR
+- Performance: ☐ OK ☐ ERROR
 
-**Problèmes rencontrés**:
+**Issues encountered**:
 _________________________________
 _________________________________
 
@@ -358,17 +363,17 @@ _________________________________
 
 ---
 
-## 🎉 Si Tous les Tests Passent
+## 🎉 If All Tests Pass
 
-**Félicitations!** Le package MCP Dev Tools v1.1.0 est entièrement fonctionnel avec:
-- ✅ 12 outils MCP
-- ✅ Gestion complète fichiers + répertoires
-- ✅ Recherche avancée
-- ✅ Sécurité enterprise
-- ✅ Performance optimisée
+**Congratulations!** The MCP Dev Tools v1.2.0 package is fully functional with:
+- ✅ 14 MCP tools
+- ✅ Complete file + directory management
+- ✅ Advanced search
+- ✅ Enterprise security
+- ✅ Optimized performance
 
 ---
 
-**Prochaine étape**: Utilisation en production! 🚀
+**Next step**: Production use! 🚀
 
-*Guide de test créé - 19 Octobre 2025*
+*Testing guide created - October 19-21, 2025*

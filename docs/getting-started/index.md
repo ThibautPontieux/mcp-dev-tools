@@ -25,15 +25,17 @@ This file contains **critical rules** to follow, including:
 ## 📚 Complete Documentation
 
 ### For Users
+
 | Document | Purpose | Time |
 |----------|---------|------|
 | **quickstart.md** | Quick start guide | 5 min |
 | **installation.md** | Complete installation guide | 15 min |
 | **testing.md** | Testing and validation | 20 min |
-| **migration.md** | Migration 1.0→1.1 | 10 min |
+| **migration.md** | Migration 1.0→1.2 | 10 min |
 | **security.md** | Security and audit | 15 min |
 
 ### For Claude (Development)
+
 | Document | Purpose | Time |
 |----------|---------|------|
 | **working-with-claude.md** | **MANDATORY RULES** ⭐ | 10 min |
@@ -42,12 +44,12 @@ This file contains **critical rules** to follow, including:
 | **lessons-learned.md** | Bug fix history | 5 min |
 
 ### Technical Documentation
+
 | Document | Purpose | Time |
 |----------|---------|------|
 | **README.md** | Complete technical docs | 30 min |
 | **changelog.md** | Version history | 10 min |
 | **index.md** | Documentation navigation | 3 min |
-| **roadmap.md** | Project overview | 15 min |
 
 ---
 
@@ -87,9 +89,8 @@ npm audit --production
 
 - Quick install → `quickstart.md`
 - Detailed installation → `installation.md`
-- Understand the project → `roadmap.md`
 - Test the package → `testing.md`
-- Migrate from 1.0 to 1.1 → `migration.md`
+- Migrate from 1.0 to 1.2 → `migration.md`
 - Check security → `security.md`
 - Develop features → `working-with-claude.md` ⭐
 - View history → `changelog.md`
@@ -141,7 +142,7 @@ packages/dev-tools/
 1. **First production-ready MCP package** for file management
 2. **Enterprise security**: Path validation, backups, rate limiting
 3. **14 complete tools**: Files + Directories + Search
-4. **Exhaustive documentation**: 20+ documentation files
+4. **Exhaustive documentation**: Complete English documentation
 5. **Ready for comprehensive tests**: Framework for 180+ tests
 6. **Documented lessons learned**: To avoid future errors
 
@@ -171,5 +172,5 @@ packages/dev-tools/
 
 ---
 
-*Version 1.2.0 - October 19-20, 2025*  
+*Version 1.2.0 - October 19-21, 2025*  
 *Production Ready with 14 MCP tools*

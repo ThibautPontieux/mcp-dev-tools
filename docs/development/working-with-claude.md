@@ -109,9 +109,11 @@ Before saying "complete", verify:
 
 ## 🔧 Available MCP Tools
 
-You have access to `dev-tools`:
+You have access to `dev-tools` with **14 tools**:
 
-### File Operations (5)
+### File Operations (7)
+- `read_file` - Read file contents
+- `write_file` - Create/write files
 - `rename_file` - Rename/move file
 - `delete_file` - Delete file
 - `copy_file` - Copy file

@@ -1,278 +1,278 @@
-# 🔧 Résolution Problèmes Post-Build
+# 🔧 Post-Build Troubleshooting
 
-## 📋 Problèmes Détectés
+## 📋 Detected Issues
 
-### ✅ Build Fonctionne
-Le build s'est exécuté avec succès !
+### ✅ Build Works
+Build executed successfully!
 
-### ❌ Problème 1: Packages Dépréciés
-Certains packages sont marqués comme "deprecated"
+### ❌ Issue 1: Deprecated Packages
+Some packages are marked as "deprecated"
 
-### ❌ Problème 2: Claude Ne Voit Pas Les Nouveaux Outils
-Seuls les 5 outils originaux sont visibles (screenshot)
+### ❌ Issue 2: Claude Doesn't See New Tools
+Only the 5 original tools are visible (screenshot)
 
 ---
 
-## 🔧 CORRECTIONS APPLIQUÉES
+## 🔧 FIXES APPLIED
 
-### Problème 1: Sécurité ✅
+### Issue 1: Security ✅
 
-**Changements dans package.json**:
+**Changes in package.json**:
 
 ```diff
 "dependencies": {
-  "@modelcontextprotocol/sdk": "^0.6.0",
+  "@modelcontextprotocol/sdk": "^1.20.1",
   "fast-glob": "^3.3.2",
-- "chokidar": "^3.5.3"  ← SUPPRIMÉ (non utilisé)
+- "chokidar": "^3.5.3"  ← REMOVED (unused)
 }
 
 "devDependencies": {
-- "eslint": "^8.56.0",           ← Déprécié
-+ "eslint": "^9.0.0",            ← Dernière version
-- "@typescript-eslint/...": "^6.19.0",  ← Ancien
-+ "@typescript-eslint/...": "^7.0.0",   ← Récent
+- "eslint": "^8.56.0",           ← Deprecated
++ "eslint": "^9.38.0",            ← Latest version
+- "@typescript-eslint/...": "^6.19.0",  ← Old
++ "@typescript-eslint/...": "^8.46.0",   ← Recent
 }
 ```
 
-**Nouveau script ajouté**:
+**New script added**:
 ```json
 "audit": "npm audit --production"
 ```
 
-**Fichiers de sécurité créés**:
-- ✅ `security-audit.sh` - Script d'audit automatique
-- ✅ `SECURITY.md` - Guide de sécurité complet
+**Security files created**:
+- ✅ `security-audit.sh` - Automatic audit script
+- ✅ `SECURITY.md` - Complete security guide
 
 ---
 
-### Problème 2: Version Incorrecte ✅
+### Issue 2: Incorrect Version ✅
 
-**Cause Root**: Version `1.0.0` dans package.json
+**Root Cause**: Version `1.0.0` in package.json
 
-**Correction**:
+**Fix**:
 ```diff
 {
   "name": "@mcp-servers/dev-tools",
 - "version": "1.0.0",
-+ "version": "1.1.0",
++ "version": "1.2.0",
   ...
 }
 ```
 
 **Impact**: 
-- Le serveur MCP s'identifie avec la version 1.0.0
-- Claude Desktop ne recharge pas les nouveaux outils
+- MCP server identifies with version 1.0.0
+- Claude Desktop doesn't reload new tools
 
 ---
 
-## 🚀 ACTIONS À EFFECTUER MAINTENANT
+## 🚀 ACTIONS TO PERFORM NOW
 
-### Étape 1: Réinstaller les Dépendances
+### Step 1: Reinstall Dependencies
 
 ```bash
 cd packages/dev-tools
 
-# Supprimer anciennes dépendances
+# Remove old dependencies
 rm -rf node_modules package-lock.json
 
-# Réinstaller avec versions mises à jour
+# Reinstall with updated versions
 npm install
 ```
 
-**Résultat attendu**: Nouvelles versions installées sans warnings
+**Expected result**: New versions installed without warnings
 
 ---
 
-### Étape 2: Audit de Sécurité
+### Step 2: Security Audit
 
 ```bash
-# Vérifier vulnérabilités
+# Check vulnerabilities
 npm audit --production
 
-# Lancer audit complet
+# Run complete audit
 chmod +x security-audit.sh
 ./security-audit.sh
 ```
 
-**Résultat attendu**: ✅ Aucune vulnérabilité
+**Expected result**: ✅ No vulnerabilities
 
 ---
 
-### Étape 3: Rebuild Complet
+### Step 3: Complete Rebuild
 
 ```bash
 # Clean
 npm run clean
 
-# Rebuild avec version 1.1.0
+# Rebuild with version 1.2.0
 npm run build
 
-# Vérifier la version dans le build
+# Check version in build
 grep "version:" dist/server.js | head -1
 ```
 
-**Résultat attendu**: `version: '1.1.0'`
+**Expected result**: `version: '1.2.0'`
 
 ---
 
-### Étape 4: Redémarrer Claude Desktop
+### Step 4: Restart Claude Desktop
 
-**IMPORTANT**: Redémarrage COMPLET nécessaire
+**IMPORTANT**: COMPLETE restart required
 
 **macOS**:
-1. Cmd+Q (quitter complètement)
-2. Relancer Claude Desktop
-3. Attendre reconnexion
+1. Cmd+Q (quit completely)
+2. Relaunch Claude Desktop
+3. Wait for reconnection
 
 **Windows**:
-1. Alt+F4 ou fermer via gestionnaire tâches
-2. Relancer Claude Desktop
-3. Attendre reconnexion
+1. Alt+F4 or close via task manager
+2. Relaunch Claude Desktop
+3. Wait for reconnection
 
 ---
 
-### Étape 5: Vérification
+### Step 5: Verification
 
-Dans Claude, taper:
+In Claude, type:
 ```
 What tools do you have available for dev-tools?
 ```
 
-**Résultat attendu**: 
+**Expected result**: 
 ```
-12 tools available:
-- File Operations: rename_file, delete_file, copy_file, file_exists, get_file_info
+14 tools available:
+- File Operations: read_file, write_file, rename_file, delete_file, copy_file, file_exists, get_file_info
 - Directory Operations: list_directory, create_directory, delete_directory, move_directory
 - Search Operations: search_files, search_content, find_duplicates
 ```
 
-**OU** test rapide:
+**OR** quick test:
 ```
 List files in the src directory
 ```
 
-Si Claude utilise `list_directory` → ✅ **SUCCÈS!**
+If Claude uses `list_directory` → ✅ **SUCCESS!**
 
 ---
 
-## 📊 Checklist Complète
+## 📊 Complete Checklist
 
-### Build & Sécurité
+### Build & Security
 - [ ] `rm -rf node_modules package-lock.json`
-- [ ] `npm install` (nouvelles versions)
-- [ ] `npm audit --production` (0 vulnérabilités)
+- [ ] `npm install` (new versions)
+- [ ] `npm audit --production` (0 vulnerabilities)
 - [ ] `./security-audit.sh` (passed)
 
 ### Rebuild
 - [ ] `npm run clean`
-- [ ] `npm run build` (succès)
-- [ ] `grep "1.1.0" dist/server.js` (trouvé)
+- [ ] `npm run build` (success)
+- [ ] `grep "1.2.0" dist/server.js` (found)
 
 ### Claude Desktop
-- [ ] Quitter complètement
-- [ ] Relancer
-- [ ] Attendre reconnexion (30 secondes)
+- [ ] Quit completely
+- [ ] Relaunch
+- [ ] Wait for reconnection (30 seconds)
 
 ### Tests
-- [ ] Demander "List files in src/"
-- [ ] Claude utilise `list_directory`
-- [ ] 12 outils visibles
+- [ ] Ask "List files in src/"
+- [ ] Claude uses `list_directory`
+- [ ] 14 tools visible
 
 ---
 
-## 🐛 Si Toujours 5 Outils Seulement
+## 🐛 If Still Only 5 Tools
 
-### Diagnostic
+### Diagnosis
 
-1. **Vérifier la version du serveur**:
+1. **Check server version**:
 ```bash
 node dist/index.js 2>&1 | grep version
 ```
-Devrait afficher: `Version: 1.1.0`
+Should display: `Version: 1.2.0`
 
-2. **Vérifier les logs Claude**:
+2. **Check Claude logs**:
 ```bash
 # macOS
 tail -f ~/Library/Logs/Claude/mcp*.log
 
 # Windows
-# Vérifier dans Event Viewer
+# Check in Event Viewer
 ```
 
-3. **Vérifier le config**:
+3. **Check config**:
 ```bash
 cat ~/Library/Application\ Support/Claude/claude_desktop_config.json
 ```
 
-Vérifier que le chemin pointe vers `dist/index.js` (PAS `dist/server.js`)
+Verify path points to `dist/index.js` (NOT `dist/server.js`)
 
 ---
 
-## 🔍 Debug Avancé
+## 🔍 Advanced Debug
 
-### Test du Serveur MCP
+### Test MCP Server
 
 ```bash
-# Lancer le serveur directement
+# Run server directly
 cd packages/dev-tools
 node dist/index.js
 ```
 
-**Devrait afficher**:
+**Should display**:
 ```
 MCP Dev Tools server started successfully
-Version: 1.1.0
+Version: 1.2.0
 ...
-Available tools (12):
+Available tools (14):
   File Operations: ...
   Directory Operations: ...
   Search Operations: ...
 ```
 
-Si version = 1.0.0 ou tools = 5 → Rebuild nécessaire
+If version = 1.0.0 or tools = 5 → Rebuild required
 
 ---
 
-## 📝 Résumé des Changements
+## 📝 Summary of Changes
 
-### Fichiers Modifiés
-1. `package.json` - Version + dépendances
-2. Nouveaux: `security-audit.sh`, `SECURITY.md`
+### Modified Files
+1. `package.json` - Version + dependencies
+2. New: `security-audit.sh`, `SECURITY.md`
 
-### Commandes À Exécuter
+### Commands to Execute
 ```bash
-# Dans packages/dev-tools/
+# In packages/dev-tools/
 rm -rf node_modules package-lock.json
 npm install
 npm audit --production
 npm run clean
 npm run build
-grep "1.1.0" dist/server.js
+grep "1.2.0" dist/server.js
 ```
 
-Puis redémarrer Claude Desktop complètement.
+Then completely restart Claude Desktop.
 
 ---
 
-## ✅ Validation Finale
+## ✅ Final Validation
 
-**Tout est OK si**:
-- ✅ `npm audit --production` → 0 vulnérabilités
-- ✅ `grep "1.1.0" dist/server.js` → trouvé
-- ✅ Claude affiche 12 outils
-- ✅ Test `list_directory` fonctionne
-
----
-
-## 🎯 Statut Attendu Après Corrections
-
-**Sécurité**: ✅ Aucune vulnérabilité  
-**Version**: ✅ 1.1.0  
-**Outils**: ✅ 12 outils disponibles  
-**Tests**: ✅ Tous fonctionnels
+**Everything is OK if**:
+- ✅ `npm audit --production` → 0 vulnerabilities
+- ✅ `grep "1.2.0" dist/server.js` → found
+- ✅ Claude displays 14 tools
+- ✅ `list_directory` test works
 
 ---
 
-**Prochaine étape**: Exécuter les commandes ci-dessus et me dire le résultat! 🚀
+## 🎯 Expected Status After Fixes
 
-*Corrections documentées - 19 Octobre 2025*
+**Security**: ✅ No vulnerabilities  
+**Version**: ✅ 1.2.0  
+**Tools**: ✅ 14 tools available  
+**Tests**: ✅ All functional
+
+---
+
+**Next step**: Execute commands above and let me know the result! 🚀
+
+*Fixes documented - October 19-21, 2025*

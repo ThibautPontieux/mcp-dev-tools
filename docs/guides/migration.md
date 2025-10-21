@@ -1,58 +1,62 @@
-# 🚀 Guide de Migration - v1.0.0 → v1.1.0
+# 🚀 Migration Guide - v1.0.0 → v1.2.0
 
-## 📋 Vue d'Ensemble
+## 📋 Overview
 
-**Migration de**: MCP Dev Tools 1.0.0 (5 outils)  
-**Vers**: MCP Dev Tools 1.1.0 (12 outils)
+**Migrating from**: MCP Dev Tools 1.0.0 (5 tools)  
+**To**: MCP Dev Tools 1.2.0 (14 tools)
 
-**Type de migration**: ✅ **Additive** (pas de breaking changes)
+**Migration type**: ✅ **Additive** (no breaking changes)
 
-**Temps estimé**: 5-10 minutes
+**Estimated time**: 5-10 minutes
 
 ---
 
-## ✨ Nouveautés v1.1.0
+## ✨ What's New in v1.2.0
 
-### 7 Nouveaux Outils
+### 9 New Tools
+
+**File Operations** (2 new):
+- `read_file` - Read file contents
+- `write_file` - Create/write files
 
 **Directory Operations** (4):
-- `list_directory` - Lister répertoires avec filtres
-- `create_directory` - Créer répertoires
-- `delete_directory` - Supprimer répertoires (sécurisé)
-- `move_directory` - Déplacer/renommer répertoires
+- `list_directory` - List directories with filters
+- `create_directory` - Create directories
+- `delete_directory` - Delete directories (secure)
+- `move_directory` - Move/rename directories
 
 **Search Operations** (3):
-- `search_files` - Recherche par nom/pattern
-- `search_content` - Recherche dans contenu (grep-like)
-- `find_duplicates` - Détection de doublons
+- `search_files` - Search by name/pattern
+- `search_content` - Search in content (grep-like)
+- `find_duplicates` - Duplicate detection
 
-### Nouveaux Utilitaires
+### New Utilities
 
-- **SearchCache** - Cache des recherches (5-15 min TTL)
-- **FileHasher** - Hashing MD5/SHA256
+- **SearchCache** - Search caching (5-15 min TTL)
+- **FileHasher** - MD5/SHA256 hashing
 
 ---
 
-## 🔄 Étapes de Migration
+## 🔄 Migration Steps
 
-### Étape 1: Backup (Optionnel mais Recommandé)
+### Step 1: Backup (Optional but Recommended)
 
 ```bash
-# Sauvegarder la version actuelle
+# Backup current version
 cp -r packages/dev-tools packages/dev-tools-v1.0.0-backup
 ```
 
-### Étape 2: Pull/Update du Code
+### Step 2: Pull/Update Code
 
-Si depuis Git:
+If from Git:
 ```bash
 git pull origin main
 ```
 
-Si fichiers locaux:
-- Remplacer les fichiers par la v1.1.0
+If local files:
+- Replace files with v1.2.0
 
-### Étape 3: Rebuild
+### Step 3: Rebuild
 
 ```bash
 cd packages/dev-tools
@@ -65,44 +69,46 @@ npm install
 npm run build
 ```
 
-### Étape 4: Vérification
+### Step 4: Verification
 
 ```bash
-# Valider la structure
+# Validate structure
 node validate.js
 
-# Vérifier la version dans dist/server.js
+# Check version in dist/server.js
 grep "version:" dist/server.js
-# Devrait afficher: version: '1.1.0'
+# Should display: version: '1.2.0'
 ```
 
-### Étape 5: Redémarrer Claude Desktop
+### Step 5: Restart Claude Desktop
 
-1. **Quitter complètement** Claude Desktop
-2. **Relancer** l'application
-3. Le serveur MCP se reconnecte automatiquement
+1. **Completely quit** Claude Desktop
+2. **Relaunch** the application
+3. MCP server reconnects automatically
 
-### Étape 6: Test Rapide
+### Step 6: Quick Test
 
-Dans Claude, tester:
+In Claude, test:
 ```
 List files in src/ directory
 ```
 
-Si Claude utilise `list_directory`, ✅ **Migration réussie!**
+If Claude uses `list_directory`, ✅ **Migration successful!**
 
 ---
 
-## ⚙️ Configuration (Optionnelle)
+## ⚙️ Configuration (Optional)
 
-### Nouveaux Rate Limits
+### New Rate Limits
 
-Si tu as un fichier `.dev-tools.config.json`, ajouter:
+If you have a `.dev-tools.config.json` file, add:
 
 ```json
 {
   "rateLimits": {
     "limits": {
+      "read_file": { "max": 200, "per": 60000 },
+      "write_file": { "max": 100, "per": 60000 },
       "list_directory": { "max": 100, "per": 60000 },
       "create_directory": { "max": 50, "per": 60000 },
       "delete_directory": { "max": 10, "per": 60000 },
@@ -115,20 +121,20 @@ Si tu as un fichier `.dev-tools.config.json`, ajouter:
 }
 ```
 
-**Note**: Ces limites sont déjà dans les défauts, cette config est optionnelle.
+**Note**: These limits are already in defaults, this config is optional.
 
 ---
 
-## 🔍 Vérifier la Migration
+## 🔍 Verify Migration
 
-### Dans Claude Desktop
+### In Claude Desktop
 
-Demander à Claude:
+Ask Claude:
 ```
 What tools do you have available?
 ```
 
-Claude devrait lister **12 outils** (au lieu de 5).
+Claude should list **14 tools** (instead of 5).
 
 ### Via Logs
 
@@ -136,58 +142,60 @@ Claude devrait lister **12 outils** (au lieu de 5).
 tail -f packages/dev-tools/.logs/dev-tools-*.log
 ```
 
-Faire une opération et vérifier que le log apparaît.
+Perform an operation and verify the log appears.
 
 ---
 
 ## ⚠️ Breaking Changes
 
-**Aucun!** 
+**None!** 
 
-La v1.1.0 est **100% rétrocompatible** avec la v1.0.0.
+v1.2.0 is **100% backward compatible** with v1.0.0.
 
-Tous les outils existants fonctionnent exactement pareil:
-- ✅ `rename_file` - Aucun changement
-- ✅ `delete_file` - Aucun changement
-- ✅ `copy_file` - Aucun changement
-- ✅ `file_exists` - Aucun changement
-- ✅ `get_file_info` - Aucun changement
+All existing tools work exactly the same:
+- ✅ `rename_file` - No changes
+- ✅ `delete_file` - No changes
+- ✅ `copy_file` - No changes
+- ✅ `file_exists` - No changes
+- ✅ `get_file_info` - No changes
 
 ---
 
-## 📊 Changements Internes
+## 📊 Internal Changes
 
-### Fichiers Ajoutés
+### Files Added
 
 ```
-src/types/directory.ts          # Types directory ops
-src/types/search.ts             # Types search ops
-src/tools/directory-operations.ts  # Implémentation
-src/tools/search-operations.ts     # Implémentation
-src/utils/search-cache.ts       # Cache
+src/types/file.ts               # File operation types
+src/types/directory.ts          # Directory operation types
+src/types/search.ts             # Search operation types
+src/tools/file-operations.ts    # File ops implementation
+src/tools/directory-operations.ts  # Directory ops implementation
+src/tools/search-operations.ts     # Search ops implementation
+src/utils/search-cache.ts       # Caching
 src/utils/file-hasher.ts        # Hashing
 ```
 
-### Fichiers Modifiés
+### Files Modified
 
 ```
-src/server.ts                   # +7 outils
-src/utils/config.ts             # +7 rate limits
+src/server.ts                   # +9 tools
+src/utils/config.ts             # +9 rate limits
 src/types/index.ts              # Exports
 src/tools/index.ts              # Exports
 src/utils/index.ts              # Exports
-CHANGELOG.md                    # v1.1.0
+CHANGELOG.md                    # v1.2.0
 ```
 
-### Aucun Fichier Supprimé
+### No Files Deleted
 
-Tous les fichiers de v1.0.0 sont conservés.
+All files from v1.0.0 are preserved.
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Problème: Build échoue
+### Issue: Build fails
 
 **Solution**:
 ```bash
@@ -196,91 +204,91 @@ npm install
 npm run build
 ```
 
-### Problème: Claude ne voit pas les nouveaux outils
+### Issue: Claude doesn't see new tools
 
-**Causes possibles**:
-1. Claude Desktop pas redémarré → Redémarrer complètement
-2. Build incomplet → Vérifier `dist/server.js` existe
-3. Vieux cache → Supprimer `dist/` et rebuild
+**Possible causes**:
+1. Claude Desktop not restarted → Completely restart
+2. Incomplete build → Check `dist/server.js` exists
+3. Old cache → Delete `dist/` and rebuild
 
-### Problème: Erreurs TypeScript
+### Issue: TypeScript errors
 
-**Solution**: Voir `BUILD_FIXES.md` pour corrections connues
+**Solution**: See `build-fixes.md` for known fixes
 
 ---
 
-## 📈 Bénéfices de la Migration
+## 📈 Migration Benefits
 
-### Avant (v1.0.0)
-- 5 outils (fichiers uniquement)
-- Gestion basique
+### Before (v1.0.0)
+- 5 tools (files only)
+- Basic management
 
-### Après (v1.1.0)
-- 12 outils (fichiers + répertoires + recherche)
-- Gestion complète du workspace
-- Recherche avancée avec cache
-- Détection de doublons
-- Performance optimisée
+### After (v1.2.0)
+- 14 tools (files + directories + search)
+- Complete workspace management
+- Advanced search with caching
+- Duplicate detection
+- Optimized performance
 
-### Cas d'Usage Débloqués
+### Unlocked Use Cases
 
-**Nouveau**: Organiser structure de projet
+**New**: Organize project structure
 ```
 Create src/components/ui/buttons directory structure
 ```
 
-**Nouveau**: Trouver fichiers rapidement
+**New**: Find files quickly
 ```
 Find all test files
 ```
 
-**Nouveau**: Recherche de contenu
+**New**: Content search
 ```
 Search for TODO comments in TypeScript files
 ```
 
-**Nouveau**: Nettoyer doublons
+**New**: Clean up duplicates
 ```
 Find duplicate images to save space
 ```
 
 ---
 
-## ✅ Checklist de Migration
+## ✅ Migration Checklist
 
-- [ ] Backup effectué (optionnel)
-- [ ] Code mis à jour vers v1.1.0
-- [ ] `npm run clean` exécuté
-- [ ] `npm install` exécuté
-- [ ] `npm run build` réussi
-- [ ] `node validate.js` passe
-- [ ] Claude Desktop redémarré
-- [ ] Test `list_directory` réussi
-- [ ] 12 outils disponibles confirmé
-- [ ] Logs fonctionnels vérifiés
+- [ ] Backup done (optional)
+- [ ] Code updated to v1.2.0
+- [ ] `npm run clean` executed
+- [ ] `npm install` executed
+- [ ] `npm run build` successful
+- [ ] `node validate.js` passes
+- [ ] Claude Desktop restarted
+- [ ] `list_directory` test successful
+- [ ] 14 tools available confirmed
+- [ ] Logs verified working
 
 ---
 
-## 🎉 Migration Terminée!
+## 🎉 Migration Complete!
 
-Si tous les tests passent, la migration est **complète et réussie**!
+If all tests pass, migration is **complete and successful**!
 
-**Profite des 7 nouveaux outils!** 🚀
+**Enjoy the 9 new tools!** 🚀
 
 ---
 
 ## 📞 Support
 
-**Problèmes?**
-1. Voir `TESTING_GUIDE.md`
-2. Vérifier `BUILD_FIXES.md`
-3. Consulter `CHANGELOG.md` pour détails
+**Issues?**
+1. See `testing.md`
+2. Check `build-fixes.md`
+3. Consult `changelog.md` for details
 
 ---
 
-**Version**: 1.0.0 → 1.1.0  
-**Date**: 19 Octobre 2025  
-**Type**: Migration additive (pas de breaking changes)  
-**Durée**: 5-10 minutes
+**Version**: 1.0.0 → 1.2.0  
+**Date**: October 19-21, 2025  
+**Type**: Additive migration (no breaking changes)  
+**Duration**: 5-10 minutes
 
-*Guide de migration créé - 19 Octobre 2025*
+*Migration guide created - October 19-21, 2025*
