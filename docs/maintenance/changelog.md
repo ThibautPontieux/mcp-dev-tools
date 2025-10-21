@@ -7,6 +7,188 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0] - 2025-10-20 to 2025-10-21
+
+### 🎉 Major Release - File I/O Operations + Dependencies Update + Documentation Overhaul
+
+Third major release completing the file operations suite, updating all dependencies, and internationalizing documentation.
+
+### ✨ Added - File I/O Operations
+
+#### New Tools (2)
+- **`read_file`** - Read file contents
+  - Text and binary file support
+  - UTF-8 and Base64 encoding options
+  - Configurable size limits for safety
+  - Efficient streaming for large files
+  - MIME type detection
+
+- **`write_file`** - Create or write files
+  - Automatic parent directory creation
+  - Overwrite protection with confirmation
+  - Automatic backup on overwrite
+  - Content encoding support (UTF-8, Base64)
+  - Atomic write operations
+
+### 📦 Dependencies - Major Updates
+
+#### Production Dependencies
+- **`@modelcontextprotocol/sdk`**: `^0.6.0` → `^1.20.1` (major update)
+  - Updated to latest MCP SDK version
+  - Improved stability and performance
+  - Better TypeScript types
+
+#### Development Dependencies
+- **`eslint`**: `^8.56.0` → `^9.38.0` (major update)
+  - Migrated to ESLint 9 flat config
+  - Improved performance and rules
+  
+- **`@typescript-eslint/*`**: `^6.19.0` → `^8.46.0` (major update)
+  - ESLint 9 compatibility
+  - Better TypeScript analysis
+
+- **`jest`**: `^29.7.0` → `^30.2.0` (major update)
+  - Latest testing framework
+  - Improved performance
+
+- **`rimraf`**: `^5.0.10` → `^6.0.1` (major update)
+  - Better cross-platform support
+
+- **`@types/jest`**: Updated to `^30.0.0`
+- **`@types/node`**: Updated to `^24.8.1`
+
+### 📚 Documentation - Complete Internationalization
+
+#### Language Translation
+- **Translated to English**: 12+ documentation files
+  - `getting-started/` - Complete translation
+  - `guides/` - Security, testing, migration guides
+  - `development/` - Package management, lessons learned
+  - `maintenance/` - Build fixes, troubleshooting
+  - Main `index.md` - Complete rewrite
+
+#### Documentation Improvements
+- **`working-with-claude.md`** - Renamed from `claude-instructions.md`
+  - Added context files explanation
+  - Enhanced with pedagogical content
+  - Template for other projects
+
+- **Cleaned up navigation**
+  - Removed 10 broken links to non-existent files
+  - Added complete tool descriptions (14 tools)
+  - Simplified structure
+
+- **Archived historical documents**
+  - Moved to `_archived_docs/` with explanatory README
+  - `autonomous-workflow.md` - Vision document
+  - `package-updates.md` - Status snapshot
+  - `phases-4-5.md` - Historical specs
+  - `roadmap.md` - Historical planning
+
+#### Documentation Fixes
+- **Fixed Markdown tables** - Corrected rendering issues in `getting-started/index.md`
+- **Added navigation anchors** - Fixed table of contents in `installation.md`
+- **Updated tool counts** - Corrected from 12 to 14 tools throughout
+
+### 🔧 Development Improvements
+
+#### Automation Scripts (Enhanced)
+- **Added timeout support** (30s) for network operations
+  - Fixes proxy environment issues
+  - Better error handling
+  - Automatic fallback
+
+- **`auto-update-packages.sh`** - Enhanced package management
+  - Automatic CHANGELOG reading
+  - Breaking change detection
+  - Automatic rollback on build failure
+  - Backup before updates
+
+- **`package-analyzer.sh`** - Improved analysis
+  - Timeout handling for slow networks
+  - Better reporting format
+  - Deprecated package detection
+
+### 📈 Statistics
+
+| Metric | v1.1.0 | v1.2.0 | Change |
+|--------|--------|--------|--------|
+| **Total Tools** | 12 | 14 | +2 |
+| **File Operations** | 5 | 7 | +2 |
+| **MCP SDK Version** | 0.6.0 | 1.20.1 | +1.14.1 |
+| **Documentation Files** | 18 (mixed) | 13 (EN) | Cleaned |
+| **Security Vulnerabilities** | 0 | 0 | ✅ |
+| **Outdated Packages** | 3 | 0 | Fixed |
+
+### 🔒 Security
+
+- **Zero vulnerabilities** maintained across all updates
+- **No deprecated packages** - All dependencies current
+- **Automated security auditing** - Enhanced scripts
+- **Rate limiting** - Extended to new file operations
+  - `read_file`: 200 ops/min
+  - `write_file`: 100 ops/min
+
+### 🎯 Use Cases - New File I/O Examples
+
+```typescript
+// Read configuration file
+read_file({ agent: "dev", path: "config.json", encoding: "utf8" })
+
+// Write generated code
+write_file({ 
+  agent: "dev", 
+  path: "src/generated/types.ts", 
+  content: generatedCode,
+  overwrite: false 
+})
+
+// Read binary file (image)
+read_file({ agent: "dev", path: "logo.png", encoding: "base64" })
+
+// Create file with backup
+write_file({ 
+  agent: "dev", 
+  path: "important.json", 
+  content: data,
+  createBackup: true 
+})
+```
+
+### ⚠️ Breaking Changes
+
+**None** - All changes are additive and backward compatible.
+
+### 🐛 Bug Fixes
+
+- Fixed TypeScript compilation errors from dependency updates
+- Corrected tool count displays (12 → 14)
+- Fixed broken documentation links
+- Resolved Markdown table rendering issues
+
+### 📝 Migration Notes
+
+#### From v1.1.0 to v1.2.0
+- **No code changes required** - Fully backward compatible
+- **Rebuild required** after `npm install` due to dependency updates
+- **Claude Desktop restart required** to recognize new tools
+- **Configuration unchanged** - Existing configs work as-is
+
+#### Documentation Changes
+- English documentation now in `docs/`
+- Historical French documents in `_archived_docs/`
+- All internal links updated and verified
+
+### 🎓 Lessons Learned
+
+- **Always update changelog** with each version
+- **Test build after every change** before declaring complete
+- **Maintain consistent tool counts** across documentation
+- **Verify all links** after documentation restructuring
+- **Document breaking changes** even if none exist
+
+---
+
 ## [1.1.0] - 2025-10-19
 
 ### 🎉 Major Feature Release - Directory Operations + Search Operations
@@ -17,131 +199,20 @@ Second major release adding comprehensive directory management and advanced sear
 
 #### New Tools
 - **`list_directory`** - List directory contents with advanced filtering
-  - Recursive traversal with max depth control
-  - File type filtering
-  - Multiple sort options (name, size, modified)
-  - Glob pattern support
-  - Hidden file inclusion option
-  - Statistics (total files, directories, size)
-
 - **`create_directory`** - Create directories with parent support
-  - Recursive parent creation
-  - Unix permissions support
-  - Automatic path validation
-  - Duplicate detection
-
 - **`delete_directory`** - Safe directory deletion
-  - Confirmation requirement
-  - Recursive deletion support
-  - Automatic backup creation
-  - Content counting before deletion
-  - Force flag for non-empty directories
-
 - **`move_directory`** - Move or rename directories
-  - Directory merging support
-  - Automatic backup on overwrite
-  - Content preservation
-  - Cross-directory moves
 
 ### ✨ Added - Search Operations (Phase 5)
 
 #### New Tools
 - **`search_files`** - Advanced file search
-  - Name/pattern matching (glob and regex)
-  - Case-sensitive/insensitive search
-  - File type filtering
-  - Relevance scoring
-  - Result caching (5 min TTL)
-  - Exclusion patterns
-  - Max results limit
-
 - **`search_content`** - Content search (grep-like)
-  - Text search within files
-  - Regex support
-  - Whole word matching
-  - Context lines (before/after)
-  - File type filtering
-  - Binary file detection and skip
-  - Line number and column tracking
-
 - **`find_duplicates`** - Duplicate file detection
-  - Hash-based comparison (MD5)
-  - Name-based comparison
-  - Size+name comparison
-  - Wasted space calculation
-  - Original file marking
-  - Size filtering (min/max)
-  - Result caching (15 min TTL)
 
 #### New Utilities
 - **`SearchCache`** - Result caching system
-  - Configurable TTL
-  - Automatic cleanup
-  - Key generation from params
-
 - **`FileHasher`** - File hashing utility
-  - MD5 and SHA256 support
-  - Batch processing
-  - Stream-based for large files
-
-### 📊 Performance
-
-- **Caching**: Search results cached to reduce redundant operations
-- **Streaming**: Large file operations use streams
-- **Parallel Processing**: Batch operations where applicable
-- **Optimized Glob**: Using fast-glob for performance
-
-### 🔒 Security
-
-#### Rate Limiting (Updated)
-- `list_directory`: 100 ops/min
-- `create_directory`: 50 ops/min
-- `delete_directory`: 10 ops/min (sensitive operation)
-- `move_directory`: 20 ops/min
-- `search_files`: 100 ops/min
-- `search_content`: 50 ops/min (heavy operation)
-- `find_duplicates`: 20 ops/min (very heavy)
-
-#### Auto-Exclusions
-All search/directory operations automatically exclude:
-- `node_modules/**`
-- `.git/**`
-- `dist/**`
-- `build/**`
-- `.next/**`
-- `coverage/**`
-- `.cache/**`
-
-### 🧪 Testing
-
-- Added 30+ tests for Directory Operations
-- Added 30+ tests for Search Operations
-- Total test count: 180+ tests
-- Coverage maintained >90%
-
-### 📚 Documentation
-
-- Updated README.md with 7 new tools
-- Added SPECS_PHASE_4_5.md with complete specifications
-- Updated examples for all new operations
-- Added use case documentation
-
-### 🔧 Technical Changes
-
-#### New Files
-- `src/types/directory.ts` - Directory operation types
-- `src/types/search.ts` - Search operation types
-- `src/tools/directory-operations.ts` - Directory tools implementation
-- `src/tools/search-operations.ts` - Search tools implementation
-- `src/utils/search-cache.ts` - Caching utility
-- `src/utils/file-hasher.ts` - Hashing utility
-
-#### Updated Files
-- `src/server.ts` - Added 7 new tool definitions
-- `src/utils/config.ts` - Added rate limits for new tools
-- `src/types/index.ts` - Export new types
-- `src/tools/index.ts` - Export new operations
-- `src/utils/index.ts` - Export new utilities
 
 ### 📈 Statistics
 
@@ -151,50 +222,10 @@ All search/directory operations automatically exclude:
 | **Total Tools** | 12 |
 | **New Tests** | 60+ |
 | **Total Tests** | 180+ |
-| **New Files** | 8 |
-| **Lines Added** | ~2000+ |
-
-### 🎯 Use Cases
-
-#### Directory Management
-```typescript
-// List all TypeScript files sorted by size
-list_directory({ agent: "dev", path: "src", recursive: true, fileTypes: [".ts"], sortBy: "size" })
-
-// Create nested directory structure
-create_directory({ agent: "dev", path: "src/components/ui/buttons", recursive: true })
-
-// Clean up build directory
-delete_directory({ agent: "dev", path: "build", confirm: true, recursive: true })
-```
-
-#### File Search
-```typescript
-// Find all test files
-search_files({ agent: "dev", pattern: "**/*.test.*" })
-
-// Search for TODO comments
-search_content({ agent: "dev", query: "TODO", fileTypes: [".ts", ".tsx"], context: 2 })
-
-// Find duplicate images
-find_duplicates({ agent: "dev", compareBy: "hash", fileTypes: [".jpg", ".png"] })
-```
 
 ### ⚠️ Breaking Changes
 
 None - All changes are additive and backward compatible.
-
-### 🐛 Bug Fixes
-
-- Improved path validation error messages
-- Fixed edge cases in recursive directory operations
-- Enhanced binary file detection
-
-### 📝 Notes
-
-- Search operations are cached for better performance
-- Large directory operations may take time - use with appropriate limits
-- Hash-based duplicate detection is most accurate but slower than name-based
 
 ---
 
@@ -207,24 +238,18 @@ First stable release of MCP Dev Tools providing secure file operations for auton
 ### ✨ Added
 
 #### Core Features
-- **File Operations Tools**
-  - `rename_file` - Rename or move files with automatic directory creation
-  - `delete_file` - Safe file deletion with mandatory confirmation and automatic backups
-  - `copy_file` - Copy files with timestamp preservation
-  - `file_exists` - Check file/directory existence and type
-  - `get_file_info` - Get detailed file metadata (size, timestamps, permissions)
+- **File Operations Tools** (5)
+  - `rename_file` - Rename or move files
+  - `delete_file` - Safe file deletion
+  - `copy_file` - Copy files
+  - `file_exists` - Check existence
+  - `get_file_info` - Get metadata
 
 #### Security & Validation
-- **PathValidator** - Comprehensive path validation and security
-- **RateLimiter** - Abuse prevention system
-- **BackupManager** - Automatic backup system
-- **Logger** - Comprehensive logging system
-
-#### Configuration
-- **Config Loader** - Flexible configuration system
-- Environment variable support
-- Configuration file support
-- Priority-based merging
+- **PathValidator** - Path validation and security
+- **RateLimiter** - Abuse prevention
+- **BackupManager** - Automatic backups
+- **Logger** - Comprehensive logging
 
 ### 📊 Statistics
 
@@ -232,7 +257,6 @@ First stable release of MCP Dev Tools providing secure file operations for auton
 - **Lines of Code**: ~3,000+
 - **Unit Tests**: 120+
 - **Test Coverage**: >90%
-- **Documentation**: Complete
 
 ---
 
@@ -240,9 +264,12 @@ First stable release of MCP Dev Tools providing secure file operations for auton
 
 | Version | Date | Status | Key Features |
 |---------|------|--------|--------------|
+| 1.2.0 | 2025-10-20/21 | ✅ Released | File I/O, Dependencies update, Docs overhaul |
 | 1.1.0 | 2025-10-19 | ✅ Released | Directory ops, Search ops, Caching |
 | 1.0.0 | 2025-10-19 | ✅ Released | File operations, Security, Backups |
 
 ---
 
 **🎉 Thank you for using MCP Dev Tools!**
+
+*Keep this changelog updated with every version change.*
