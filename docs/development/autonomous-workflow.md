@@ -257,7 +257,7 @@ if (analysis.outdatedCount > 0) {
 
 ---
 
-## 📝 Pour CLAUDE_INSTRUCTIONS.md
+## 📝 Pour working-with-claude.md
 
 Ajouter cette règle :
 
@@ -291,7 +291,7 @@ Avant de déclarer un travail terminé :
 1. Créer script `auto-update-packages.sh`
 2. Intégrer lecture CHANGELOGs
 3. Ajouter tests automatiques
-4. Documenter dans CLAUDE_INSTRUCTIONS.md
+4. Documenter dans working-with-claude.md
 
 ### **Moyen Terme** (1-2 mois)
 
@@ -311,8 +311,7 @@ Avant de déclarer un travail terminé :
 ## 📊 ROI de l'Automatisation
 
 | Aspect | Manuel | Semi-Auto | Full-Auto |
-|--------|--------|-----------|-----------|
-| **Temps** | 30 min | 10 min | 2 min |
+|--------|--------|-----------|-----------|\n| **Temps** | 30 min | 10 min | 2 min |
 | **Erreurs** | 20% | 5% | 1% |
 | **Sécurité** | Variable | Bonne | Excellente |
 | **Reproductibilité** | Faible | Moyenne | Élevée |

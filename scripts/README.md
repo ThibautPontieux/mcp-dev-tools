@@ -165,8 +165,8 @@ These scripts are designed for autonomous AI development:
 3. **Run `pre-commit-check.sh` before finalizing changes**
 4. **Scripts handle errors gracefully with automatic rollback**
 
-See [claude-instructions.md](../docs/development/claude-instructions.md) for details.
+See [working-with-claude.md](../docs/development/working-with-claude.md) for details.
 
 ---
 
-**Last updated:** October 20, 2025
+**Last updated:** October 21, 2025

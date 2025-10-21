@@ -188,29 +188,28 @@ npm audit                    # Audit sécurité
 ## 📚 **Documentation Disponible**
 
 ### **Pour Utilisateurs**
-1. `START_HERE.md` - Point d'entrée
-2. `QUICKSTART.md` - Démarrage rapide (5 min)
-3. `INSTALLATION.md` - Installation complète
-4. `TESTING_GUIDE.md` - Guide de test
-5. `MIGRATION_GUIDE.md` - Migration entre versions
-6. `SECURITY.md` - Guide sécurité
+1. `index.md` (getting-started) - Point d'entrée
+2. `quickstart.md` - Démarrage rapide (5 min)
+3. `installation.md` - Installation complète
+4. `testing.md` - Guide de test
+5. `migration.md` - Migration entre versions
+6. `security.md` - Guide sécurité
 
 ### **Pour Développement**
-7. `CLAUDE_INSTRUCTIONS.md` - ⭐ Règles pour Claude
-8. `AUTONOMOUS_PACKAGE_MANAGEMENT.md` - Vision autonomie
-9. `PACKAGE_MANAGEMENT.md` - Guide gestion packages
-10. `BUILD_FIXES.md` - Corrections appliquées
-11. `POST_BUILD_FIXES.md` - Résolution problèmes
-12. `LESSONS_LEARNED.md` - Leçons apprises
+7. `working-with-claude.md` - ⭐ Règles pour Claude
+8. `autonomous-workflow.md` - Vision autonomie
+9. `package-management.md` - Guide gestion packages
+10. `build-fixes.md` - Corrections appliquées
+11. `troubleshooting.md` - Résolution problèmes
+12. `lessons-learned.md` - Leçons apprises
 
 ### **Technique**
 13. `README.md` - Documentation technique
-14. `CHANGELOG.md` - Historique versions
-15. `INDEX.md` - Navigation
-16. `FINAL_SUMMARY.md` - Vue d'ensemble
-17. `SPECS_PHASE_4_5.md` - Spécifications
-18. `PACKAGE_UPDATES.md` - Mises à jour packages
-19. `CURRENT_STATUS.md` - ⭐ Ce fichier
+14. `changelog.md` - Historique versions
+15. `index.md` - Navigation
+16. `roadmap.md` - Vue d'ensemble
+17. `phases-4-5.md` - Spécifications
+18. `package-updates.md` - ⭐ Ce fichier
 
 ---
 
@@ -285,7 +284,7 @@ npm audit --production
 ## 📞 **Support & Ressources**
 
 - **Project Root** : `packages/dev-tools/`
-- **Documentation** : Voir `INDEX.md` pour navigation
+- **Documentation** : Voir `index.md` pour navigation
 - **Backups** : `.backups/` (auto-créés)
 - **Logs** : `.logs/` (si logging activé)
 

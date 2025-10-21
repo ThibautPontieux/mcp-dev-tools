@@ -1,155 +1,155 @@
 # ⚡ Quick Start Guide
 
-## 🚀 Démarrage Rapide en 5 Minutes
+## 🚀 Get Started in 5 Minutes
 
-### Étape 1: Build (30 secondes)
+### Step 1: Build (30 seconds)
 ```bash
 cd packages/dev-tools
 npm install
 npm run build
 ```
 
-✅ **Résultat attendu**: `dist/` créé avec fichiers compilés
+✅ **Expected result**: `dist/` created with compiled files
 
 ---
 
-### Étape 2: Configuration Claude Desktop (2 minutes)
+### Step 2: Claude Desktop Configuration (2 minutes)
 
-**Trouvez votre fichier de config:**
+**Find your config file:**
 
 - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 - **Linux**: `~/.config/Claude/claude_desktop_config.json`
 
-**Éditez-le et ajoutez:**
+**Edit it and add:**
 
 ```json
 {
   "mcpServers": {
     "dev-tools": {
       "command": "node",
-      "args": ["/CHEMIN/ABSOLU/vers/packages/dev-tools/dist/index.js"],
+      "args": ["/ABSOLUTE/PATH/to/packages/dev-tools/dist/index.js"],
       "env": {
-        "WORKSPACE_DIR": "/chemin/vers/votre/workspace"
+        "WORKSPACE_DIR": "/path/to/your/workspace"
       }
     }
   }
 }
 ```
 
-⚠️ **Remplacez les chemins** par vos chemins réels (absolus, pas relatifs!)
+⚠️ **Replace the paths** with your actual paths (absolute, not relative!)
 
-**Pour obtenir le chemin absolu:**
+**To get the absolute path:**
 ```bash
 cd packages/dev-tools
 pwd
-# Copiez le résultat + /dist/index.js
+# Copy the result + /dist/index.js
 ```
 
 ---
 
-### Étape 3: Redémarrer Claude Desktop (1 minute)
+### Step 3: Restart Claude Desktop (1 minute)
 
-1. Quitter **complètement** Claude Desktop (Cmd+Q ou Alt+F4)
-2. Relancer l'application
-3. Attendre la reconnexion
+1. **Completely quit** Claude Desktop (Cmd+Q or Alt+F4)
+2. Relaunch the application
+3. Wait for reconnection
 
 ---
 
-### Étape 4: Test Rapide (1 minute)
+### Step 4: Quick Test (1 minute)
 
-Dans Claude, testez:
+In Claude, test:
 
 ```
 Can you check if package.json exists in my workspace?
 ```
 
-**✅ Si ça marche**: Claude utilisera `file_exists` et répondra
+**✅ If it works**: Claude will use `file_exists` and respond
 
-**❌ Si erreur**: Voir section Dépannage ci-dessous
+**❌ If error**: See Troubleshooting section below
 
 ---
 
-## 🧪 Test Complet
+## 🧪 Complete Test
 
-### Test 1: Vérifier Existence
+### Test 1: Check Existence
 ```
 Check if README.md exists
 ```
 
-### Test 2: Info Fichier
+### Test 2: File Info
 ```
 Get information about package.json
 ```
 
-### Test 3: Créer et Modifier (LE TEST IMPORTANT!)
+### Test 3: Create and Modify (THE IMPORTANT TEST!)
 ```
 Create a test file called hello.txt with "Hello World"
 ```
 
-Puis:
+Then:
 ```
 Now modify hello.txt to say "Hello MCP!"
 ```
 
-**✅ Succès**: Claude utilise `rename_file` pour modifier en place (pas de nouveau fichier créé!)
+**✅ Success**: Claude uses `rename_file` to modify in place (no new file created!)
 
 ---
 
-## 🔧 Dépannage Express
+## 🔧 Express Troubleshooting
 
-### Problème: "Module not found"
+### Issue: "Module not found"
 ```bash
 cd packages/dev-tools
 npm install
 npm run build
 ```
 
-### Problème: Claude ne voit pas les outils
-1. Vérifier chemins absolus dans config
-2. Redémarrer Claude Desktop **complètement**
-3. Vérifier logs: `ls .logs/`
+### Issue: Claude doesn't see tools
+1. Verify absolute paths in config
+2. Restart Claude Desktop **completely**
+3. Check logs: `ls .logs/`
 
-### Problème: "Invalid path"
-- Vérifier que `WORKSPACE_DIR` est correct
-- Utiliser chemins relatifs au workspace dans Claude
+### Issue: "Invalid path"
+- Verify that `WORKSPACE_DIR` is correct
+- Use paths relative to workspace in Claude
 
-### Problème: Compilation échoue
-Voir `BUGFIX.md` - corrections déjà appliquées, devrait compiler maintenant
+### Issue: Build fails
+See `troubleshooting.md` - fixes already applied, should build now
 
 ---
 
-## 📁 Vérification Rapide
+## 📁 Quick Verification
 
-Après build, vous devriez avoir:
+After build, you should have:
 
 ```
 packages/dev-tools/
 ├── dist/
-│   ├── index.js          ← Point d'entrée
+│   ├── index.js          ← Entry point
 │   ├── server.js
 │   ├── index.d.ts
-│   └── ... (autres fichiers compilés)
-├── node_modules/         ← Dépendances
-├── src/                  ← Sources TypeScript
+│   └── ... (other compiled files)
+├── node_modules/         ← Dependencies
+├── src/                  ← TypeScript sources
 └── tests/                ← Tests
 ```
 
 ---
 
-## 📊 Commandes Utiles
+## 📊 Useful Commands
 
 ```bash
-# Validation rapide
+# Quick validation
 node validate.js
 
-# Voir les logs
+# View logs
 tail -f .logs/dev-tools-*.log
 
-# Nettoyer et rebuilder
+# Clean and rebuild
 npm run clean && npm run build
 
-# Lancer les tests
+# Run tests
 npm test
 
 # Type checking
@@ -158,20 +158,20 @@ npm run type-check
 
 ---
 
-## ✅ Checklist Rapide
+## ✅ Quick Checklist
 
-- [ ] `npm run build` réussi
-- [ ] `dist/index.js` existe
-- [ ] Config Claude avec chemin absolu
-- [ ] Claude Desktop redémarré
-- [ ] Test `file_exists` OK
-- [ ] Test modification fichier OK
+- [ ] `npm run build` successful
+- [ ] `dist/index.js` exists
+- [ ] Claude config with absolute path
+- [ ] Claude Desktop restarted
+- [ ] `file_exists` test OK
+- [ ] File modification test OK
 
 ---
 
-## 🎯 Utilisation Quotidienne
+## 🎯 Daily Usage
 
-Une fois configuré, utilisez Claude normalement:
+Once configured, use Claude normally:
 
 ```
 "Modify src/utils.ts to add error handling"
@@ -180,28 +180,28 @@ Une fois configuré, utilisez Claude normalement:
 "Check if config.json exists"
 ```
 
-Claude utilisera automatiquement les outils MCP Dev Tools!
+Claude will automatically use MCP Dev Tools!
 
 ---
 
-## 📚 Plus d'Infos
+## 📚 More Info
 
-- **Installation détaillée**: `INSTALLATION.md`
-- **Documentation complète**: `README.md`
-- **Corrections bugs**: `BUGFIX.md`
-- **Résumé complet**: `FINAL_SUMMARY.md`
-
----
-
-## 💡 Conseils Pro
-
-1. **Activez les backups** (déjà activé par défaut)
-2. **Vérifiez les logs** régulièrement: `.logs/`
-3. **Nettoyez les backups** périodiquement: `.backups/`
-4. **Utilisez LOG_LEVEL=DEBUG** pour déboguer
+- **Detailed installation**: `installation.md`
+- **Complete documentation**: Main `README.md`
+- **Bug fixes**: `lessons-learned.md`
+- **Complete summary**: `roadmap.md`
 
 ---
 
-**🎉 C'est tout ! Vous êtes prêt à utiliser MCP Dev Tools !**
+## 💡 Pro Tips
 
-**En cas de problème**: Consultez `INSTALLATION.md` pour le guide complet
+1. **Enable backups** (already enabled by default)
+2. **Check logs** regularly: `.logs/`
+3. **Clean up backups** periodically: `.backups/`
+4. **Use LOG_LEVEL=DEBUG** for debugging
+
+---
+
+**🎉 That's it! You're ready to use MCP Dev Tools!**
+
+**In case of issues**: Consult `installation.md` for the complete guide

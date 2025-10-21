@@ -1,47 +1,47 @@
-# 📦 MCP Dev Tools - Guide d'Installation Complet
+# 📦 MCP Dev Tools - Complete Installation Guide
 
-Ce guide vous accompagne pas à pas pour installer et configurer le package MCP Dev Tools avec Claude Desktop.
-
----
-
-## 📋 Table des Matières
-
-1. [Prérequis](#prérequis)
-2. [Installation du Package](#installation-du-package)
-3. [Configuration de Claude Desktop](#configuration-de-claude-desktop)
-4. [Vérification de l'Installation](#vérification-de-linstallation)
-5. [Configuration Avancée](#configuration-avancée)
-6. [Dépannage](#dépannage)
-7. [Premiers Pas](#premiers-pas)
+This guide walks you through step-by-step installation and configuration of the MCP Dev Tools package with Claude Desktop.
 
 ---
 
-## ✅ Prérequis
+## 📋 Table of Contents
 
-Avant de commencer, assurez-vous d'avoir :
+1. [Prerequisites](#prerequisites)
+2. [Package Installation](#package-installation)
+3. [Claude Desktop Configuration](#claude-desktop-configuration)
+4. [Installation Verification](#installation-verification)
+5. [Advanced Configuration](#advanced-configuration)
+6. [Troubleshooting](#troubleshooting)
+7. [Getting Started](#getting-started)
 
-### Logiciels Requis
+---
 
-| Logiciel | Version Minimale | Vérification |
-|----------|------------------|--------------|
+## <a id="prerequisites"></a>✅ Prerequisites
+
+Before starting, make sure you have:
+
+### Required Software
+
+| Software | Minimum Version | Check Command |
+|----------|-----------------|---------------|
 | **Node.js** | 18.0.0+ | `node --version` |
 | **npm** | 9.0.0+ | `npm --version` |
-| **Claude Desktop** | Dernière version | - |
-| **Git** | 2.0+ (optionnel) | `git --version` |
+| **Claude Desktop** | Latest version | - |
+| **Git** | 2.0+ (optional) | `git --version` |
 
-### Installation de Node.js
+### Installing Node.js
 
-Si Node.js n'est pas installé :
+If Node.js is not installed:
 
-**macOS (avec Homebrew)** :
+**macOS (with Homebrew)**:
 ```bash
 brew install node@18
 ```
 
-**Windows** :
-Téléchargez depuis [nodejs.org](https://nodejs.org/) et installez la version LTS.
+**Windows**:
+Download from [nodejs.org](https://nodejs.org/) and install the LTS version.
 
-**Linux (Ubuntu/Debian)** :
+**Linux (Ubuntu/Debian)**:
 ```bash
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs
@@ -49,105 +49,105 @@ sudo apt-get install -y nodejs
 
 ---
 
-## 📦 Installation du Package
+## <a id="package-installation"></a>📦 Package Installation
 
-### Étape 1 : Naviguer vers le Répertoire
+### Step 1: Navigate to Directory
 
 ```bash
-cd /chemin/vers/votre/projet
+cd /path/to/your/project
 cd packages/dev-tools
 ```
 
-### Étape 2 : Installer les Dépendances
+### Step 2: Install Dependencies
 
 ```bash
 npm install
 ```
 
-**Ce qui est installé** :
-- `@modelcontextprotocol/sdk` - SDK MCP pour Claude
-- `fast-glob` - Recherche de fichiers rapide
-- `chokidar` - Surveillance de fichiers
-- Dépendances de développement (TypeScript, Jest, ESLint, etc.)
+**What gets installed**:
+- `@modelcontextprotocol/sdk` - MCP SDK for Claude
+- `fast-glob` - Fast file search
+- `chokidar` - File watching
+- Development dependencies (TypeScript, Jest, ESLint, etc.)
 
-**Durée estimée** : 1-2 minutes
+**Estimated duration**: 1-2 minutes
 
-### Étape 3 : Compiler le Package
+### Step 3: Build the Package
 
 ```bash
 npm run build
 ```
 
-**Ce qui se passe** :
-- TypeScript compile `src/` → `dist/`
-- Génération des fichiers `.js` et `.d.ts`
-- Validation de types
+**What happens**:
+- TypeScript compiles `src/` → `dist/`
+- Generation of `.js` and `.d.ts` files
+- Type validation
 
-**Durée estimée** : 30 secondes
+**Estimated duration**: 30 seconds
 
-**Résultat attendu** :
+**Expected result**:
 ```
 ✓ Compilation successful
 ✓ dist/ directory created
 ✓ Type definitions generated
 ```
 
-### Étape 4 : Valider l'Installation
+### Step 4: Validate Installation
 
 ```bash
-# Validation rapide
+# Quick validation
 node validate.js
 
-# Tests complets
+# Complete tests
 npm test
 ```
 
-**Résultat attendu** :
+**Expected result**:
 ```
 ✅ VALIDATION PASSED - Package is ready!
 ```
 
 ---
 
-## ⚙️ Configuration de Claude Desktop
+## <a id="claude-desktop-configuration"></a>⚙️ Claude Desktop Configuration
 
-### Étape 1 : Localiser le Fichier de Configuration
+### Step 1: Locate Configuration File
 
-Le fichier de configuration se trouve ici :
+The configuration file is located here:
 
-**macOS** :
+**macOS**:
 ```
 ~/Library/Application Support/Claude/claude_desktop_config.json
 ```
 
-**Windows** :
+**Windows**:
 ```
 %APPDATA%\Claude\claude_desktop_config.json
 ```
 
-**Linux** :
+**Linux**:
 ```
 ~/.config/Claude/claude_desktop_config.json
 ```
 
-### Étape 2 : Obtenir le Chemin Absolu
+### Step 2: Get Absolute Path
 
-Vous avez besoin du chemin **absolu** vers votre fichier `dist/index.js`.
+You need the **absolute** path to your `dist/index.js` file.
 
 ```bash
-# Dans le répertoire packages/dev-tools/
+# In the packages/dev-tools/ directory
 pwd
-# Exemple de sortie : /Users/john/projects/mcp/packages/dev-tools
+# Example output: /Users/john/projects/mcp/packages/dev-tools
 ```
 
-Le chemin complet sera :
+The complete path will be:
 ```
 /Users/john/projects/mcp/packages/dev-tools/dist/index.js
 ```
 
-### Étape 3 : Éditer le Fichier de Configuration
+### Step 3: Edit Configuration File
 
-Ouvrez `claude_desktop_config.json` et ajoutez :
+Open `claude_desktop_config.json` and add:
 
 ```json
 {
@@ -155,10 +155,10 @@ Ouvrez `claude_desktop_config.json` et ajoutez :
     "dev-tools": {
       "command": "node",
       "args": [
-        "/CHEMIN/ABSOLU/VERS/packages/dev-tools/dist/index.js"
+        "/ABSOLUTE/PATH/TO/packages/dev-tools/dist/index.js"
       ],
       "env": {
-        "WORKSPACE_DIR": "/chemin/vers/votre/workspace",
+        "WORKSPACE_DIR": "/path/to/your/workspace",
         "BACKUP_ENABLED": "true",
         "LOG_LEVEL": "INFO"
       }
@@ -167,14 +167,14 @@ Ouvrez `claude_desktop_config.json` et ajoutez :
 }
 ```
 
-**⚠️ IMPORTANT** :
-- Remplacez `/CHEMIN/ABSOLU/VERS/` par votre chemin réel
-- Remplacez `/chemin/vers/votre/workspace` par le dossier où vous travaillez
-- Utilisez des chemins **absolus**, pas relatifs
+**⚠️ IMPORTANT**:
+- Replace `/ABSOLUTE/PATH/TO/` with your actual path
+- Replace `/path/to/your/workspace` with the folder where you work
+- Use **absolute** paths, not relative ones
 
-### Exemple Complet de Configuration
+### Complete Configuration Example
 
-**macOS/Linux** :
+**macOS/Linux**:
 ```json
 {
   "mcpServers": {
@@ -197,7 +197,7 @@ Ouvrez `claude_desktop_config.json` et ajoutez :
 }
 ```
 
-**Windows** :
+**Windows**:
 ```json
 {
   "mcpServers": {
@@ -216,92 +216,92 @@ Ouvrez `claude_desktop_config.json` et ajoutez :
 }
 ```
 
-### Étape 4 : Redémarrer Claude Desktop
+### Step 4: Restart Claude Desktop
 
-1. **Quitter complètement** Claude Desktop (Cmd+Q sur Mac, Alt+F4 sur Windows)
-2. **Relancer** l'application
-3. Attendre que Claude se reconnecte
+1. **Completely quit** Claude Desktop (Cmd+Q on Mac, Alt+F4 on Windows)
+2. **Relaunch** the application
+3. Wait for Claude to reconnect
 
 ---
 
-## ✅ Vérification de l'Installation
+## <a id="installation-verification"></a>✅ Installation Verification
 
-### Test 1 : Vérifier que le Serveur MCP Démarre
+### Test 1: Verify MCP Server Starts
 
-Après avoir redémarré Claude, les logs du serveur MCP devraient apparaître.
+After restarting Claude, the MCP server logs should appear.
 
-**Chercher dans les logs** (si disponibles) :
+**Look for in logs** (if available):
 ```
 MCP Dev Tools server started successfully
 Workspace directory: /your/workspace/path
 Available tools: rename_file, delete_file, copy_file, file_exists, get_file_info
 ```
 
-### Test 2 : Tester avec Claude
+### Test 2: Test with Claude
 
-Ouvrez une conversation avec Claude et demandez :
+Open a conversation with Claude and ask:
 
 ```
 Can you check if the file 'test.txt' exists in my workspace?
 ```
 
-**Réponse attendue** :
-Claude devrait utiliser l'outil `file_exists` et vous donner un résultat.
+**Expected response**:
+Claude should use the `file_exists` tool and give you a result.
 
-### Test 3 : Créer et Modifier un Fichier de Test
+### Test 3: Create and Modify a Test File
 
 ```
 Create a test file called 'hello.txt' with the content "Hello World"
 ```
 
-Puis :
+Then:
 
 ```
 Now modify hello.txt to say "Hello MCP Dev Tools!"
 ```
 
-**Comportement attendu** :
-- Claude devrait utiliser `rename_file` pour modifier le fichier
-- PAS créer un nouveau fichier
-- Confirmer la modification
+**Expected behavior**:
+- Claude should use `rename_file` to modify the file
+- NOT create a new file
+- Confirm the modification
 
-### Test 4 : Vérifier les Logs
+### Test 4: Check Logs
 
-Les logs devraient être créés dans votre workspace :
+Logs should be created in your workspace:
 
 ```bash
 ls -la .logs/
-# Devrait montrer : dev-tools-YYYY-MM-DD.log
+# Should show: dev-tools-YYYY-MM-DD.log
 ```
 
-Vérifier le contenu :
+Check contents:
 ```bash
 tail .logs/dev-tools-*.log
 ```
 
-Vous devriez voir des entrées JSON avec les opérations effectuées.
+You should see JSON entries with operations performed.
 
 ---
 
-## 🔧 Configuration Avancée
+## <a id="advanced-configuration"></a>🔧 Advanced Configuration
 
-### Variables d'Environnement Complètes
+### Complete Environment Variables
 
-| Variable | Description | Défaut | Exemple |
-|----------|-------------|--------|---------|
-| `WORKSPACE_DIR` | Répertoire de travail | `process.cwd()` | `/home/user/projects` |
-| `ALLOW_OUTSIDE_ACCESS` | Autoriser accès hors workspace | `false` | `true` |
-| `BACKUP_ENABLED` | Activer les backups | `true` | `false` |
-| `BACKUP_DIR` | Dossier des backups | `.backups` | `/backups` |
-| `BACKUP_RETENTION` | Rétention en jours | `7` | `30` |
-| `RATE_LIMIT_ENABLED` | Activer rate limiting | `true` | `false` |
-| `LOG_LEVEL` | Niveau de log | `INFO` | `DEBUG` |
-| `LOG_DIR` | Dossier des logs | `.logs` | `/var/log` |
-| `LOG_RETENTION` | Rétention logs en jours | `30` | `90` |
+| Variable | Description | Default | Example |
+|----------|-------------|---------|---------|
+| `WORKSPACE_DIR` | Working directory | `process.cwd()` | `/home/user/projects` |
+| `ALLOW_OUTSIDE_ACCESS` | Allow access outside workspace | `false` | `true` |
+| `BACKUP_ENABLED` | Enable backups | `true` | `false` |
+| `BACKUP_DIR` | Backup folder | `.backups` | `/backups` |
+| `BACKUP_RETENTION` | Retention in days | `7` | `30` |
+| `RATE_LIMIT_ENABLED` | Enable rate limiting | `true` | `false` |
+| `LOG_LEVEL` | Log level | `INFO` | `DEBUG` |
+| `LOG_DIR` | Log folder | `.logs` | `/var/log` |
+| `LOG_RETENTION` | Log retention in days | `30` | `90` |
 
-### Fichier de Configuration Personnalisé
+### Custom Configuration File
 
-Créez `.dev-tools.config.json` dans votre workspace :
+Create `.dev-tools.config.json` in your workspace:
 
 ```json
 {
@@ -339,69 +339,69 @@ Créez `.dev-tools.config.json` dans votre workspace :
 }
 ```
 
-**Priorité de Configuration** :
-1. Variables d'environnement (plus haute)
-2. Fichier `.dev-tools.config.json`
-3. Valeurs par défaut (plus basse)
+**Configuration Priority**:
+1. Environment variables (highest)
+2. `.dev-tools.config.json` file
+3. Default values (lowest)
 
 ---
 
-## 🐛 Dépannage
+## <a id="troubleshooting"></a>🐛 Troubleshooting
 
-### Problème 1 : "Module not found"
+### Issue 1: "Module not found"
 
-**Symptôme** :
+**Symptom**:
 ```
 Error: Cannot find module '@modelcontextprotocol/sdk'
 ```
 
-**Solution** :
+**Solution**:
 ```bash
 cd packages/dev-tools
 npm install
 npm run build
 ```
 
-### Problème 2 : "Permission denied"
+### Issue 2: "Permission denied"
 
-**Symptôme** :
+**Symptom**:
 ```
 Error: EACCES: permission denied
 ```
 
-**Solution** :
+**Solution**:
 ```bash
-# Vérifier les permissions
+# Check permissions
 ls -la dist/index.js
 
-# Donner les permissions d'exécution
+# Give execution permissions
 chmod +x dist/index.js
 ```
 
-### Problème 3 : Claude ne voit pas les outils
+### Issue 3: Claude Doesn't See Tools
 
-**Causes possibles** :
-1. Chemin incorrect dans `claude_desktop_config.json`
-2. Claude Desktop pas redémarré
-3. Erreurs de compilation
+**Possible causes**:
+1. Incorrect path in `claude_desktop_config.json`
+2. Claude Desktop not restarted
+3. Build errors
 
-**Solutions** :
+**Solutions**:
 ```bash
-# 1. Vérifier le chemin
+# 1. Check the path
 cat ~/Library/Application\ Support/Claude/claude_desktop_config.json
 
-# 2. Recompiler
+# 2. Rebuild
 npm run build
 
-# 3. Valider
+# 3. Validate
 node validate.js
 
-# 4. Redémarrer Claude Desktop complètement
+# 4. Completely restart Claude Desktop
 ```
 
-### Problème 4 : "Invalid path" errors
+### Issue 4: "Invalid path" errors
 
-**Symptôme** :
+**Symptom**:
 ```json
 {
   "success": false,
@@ -409,16 +409,16 @@ node validate.js
 }
 ```
 
-**Cause** : Tentative d'accès hors du workspace
+**Cause**: Attempt to access outside workspace
 
-**Solution** :
-- Vérifier que `WORKSPACE_DIR` est correct
-- Utiliser des chemins relatifs au workspace
-- Ne pas utiliser `../` dans les chemins
+**Solution**:
+- Verify that `WORKSPACE_DIR` is correct
+- Use paths relative to workspace
+- Don't use `../` in paths
 
-### Problème 5 : Rate limit dépassé
+### Issue 5: Rate limit exceeded
 
-**Symptôme** :
+**Symptom**:
 ```json
 {
   "success": false,
@@ -426,19 +426,19 @@ node validate.js
 }
 ```
 
-**Solutions** :
+**Solutions**:
 ```bash
-# Option 1 : Désactiver temporairement
-# Dans claude_desktop_config.json :
+# Option 1: Temporarily disable
+# In claude_desktop_config.json:
 "RATE_LIMIT_ENABLED": "false"
 
-# Option 2 : Augmenter les limites
-# Créer .dev-tools.config.json avec limites plus élevées
+# Option 2: Increase limits
+# Create .dev-tools.config.json with higher limits
 ```
 
-### Logs de Débogage
+### Debug Logs
 
-Pour activer les logs détaillés :
+To enable detailed logs:
 
 ```json
 {
@@ -454,16 +454,16 @@ Pour activer les logs détaillés :
 }
 ```
 
-Puis vérifier :
+Then check:
 ```bash
 tail -f .logs/dev-tools-*.log
 ```
 
 ---
 
-## 🚀 Premiers Pas
+## <a id="getting-started"></a>🚀 Getting Started
 
-### Exemple 1 : Modifier un Fichier Existant
+### Example 1: Modify an Existing File
 
 ```
 User: "I have a file called utils.ts. Can you add a new function called formatDate to it?"
@@ -472,7 +472,7 @@ Claude: I'll modify utils.ts for you using the rename_file tool...
 [Claude modifies the file in place]
 ```
 
-### Exemple 2 : Renommer des Fichiers
+### Example 2: Rename Files
 
 ```
 User: "Rename all .js files in the src/ directory to .ts"
@@ -481,7 +481,7 @@ Claude: I'll rename each .js file to .ts...
 [Claude uses rename_file for each file]
 ```
 
-### Exemple 3 : Nettoyer des Fichiers
+### Example 3: Clean Up Files
 
 ```
 User: "Delete all .log files older than 7 days"
@@ -490,7 +490,7 @@ Claude: I'll check for old log files and delete them with backups...
 [Claude uses delete_file with createBackup: true]
 ```
 
-### Exemple 4 : Copier un Template
+### Example 4: Copy a Template
 
 ```
 User: "Copy template.tsx to components/NewComponent.tsx"
@@ -501,49 +501,49 @@ Claude: I'll copy the template file for you...
 
 ---
 
-## 📚 Ressources Supplémentaires
+## 📚 Additional Resources
 
-- **README.md** : Documentation complète du package
-- **COMPLETION_REPORT.md** : Rapport de développement
-- **CHANGELOG.md** : Historique des versions
-- **tests/** : Exemples d'utilisation dans les tests
+- **README.md**: Complete package documentation
+- **COMPLETION_REPORT.md**: Development report
+- **changelog.md**: Version history
+- **tests/**: Usage examples in tests
 
 ---
 
-## 💡 Conseils
+## 💡 Tips
 
 ### Performance
-- Gardez `BACKUP_ENABLED` à `true` pour la sécurité
-- Nettoyez régulièrement `.backups/` et `.logs/`
-- Utilisez `RATE_LIMIT_ENABLED` en production
+- Keep `BACKUP_ENABLED` at `true` for security
+- Clean up `.backups/` and `.logs/` regularly
+- Use `RATE_LIMIT_ENABLED` in production
 
-### Sécurité
-- Ne désactivez jamais la validation de chemins
-- Maintenez `protectedPaths` à jour
-- Surveillez les logs pour activités suspectes
+### Security
+- Never disable path validation
+- Keep `protectedPaths` up to date
+- Monitor logs for suspicious activity
 
-### Développement
-- Utilisez `LOG_LEVEL: DEBUG` pendant le développement
-- Testez avec `validate.js` après chaque modification
-- Relancez `npm run build` après changements
-
----
-
-## ✅ Checklist d'Installation
-
-- [ ] Node.js 18+ installé
-- [ ] Dépendances npm installées
-- [ ] Package compilé (`npm run build`)
-- [ ] Validation réussie (`node validate.js`)
-- [ ] `claude_desktop_config.json` configuré avec chemin absolu
-- [ ] Claude Desktop redémarré
-- [ ] Test avec `file_exists` réussi
-- [ ] Test de modification de fichier réussi
-- [ ] Logs créés dans `.logs/`
-- [ ] Backups fonctionnels dans `.backups/`
+### Development
+- Use `LOG_LEVEL: DEBUG` during development
+- Test with `validate.js` after each modification
+- Rerun `npm run build` after changes
 
 ---
 
-**🎉 Félicitations ! MCP Dev Tools est maintenant installé et prêt à l'emploi !**
+## ✅ Installation Checklist
 
-Pour toute question ou problème, consultez la section [Dépannage](#dépannage) ou les logs dans `.logs/`.
+- [ ] Node.js 18+ installed
+- [ ] npm dependencies installed
+- [ ] Package built (`npm run build`)
+- [ ] Validation successful (`node validate.js`)
+- [ ] `claude_desktop_config.json` configured with absolute path
+- [ ] Claude Desktop restarted
+- [ ] Test with `file_exists` successful
+- [ ] File modification test successful
+- [ ] Logs created in `.logs/`
+- [ ] Backups working in `.backups/`
+
+---
+
+**🎉 Congratulations! MCP Dev Tools is now installed and ready to use!**
+
+For any questions or issues, consult the [Troubleshooting](#troubleshooting) section or check logs in `.logs/`.

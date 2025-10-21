@@ -1,79 +1,79 @@
 # 🎯 START HERE
 
-## 👤 Pour Toi (Utilisateur)
+## 👤 For You (User)
 
-**Action immédiate**: Voir **QUICKSTART.md** pour installer en 5 minutes
-
----
-
-## 🤖 Pour Claude (Futures Conversations)
-
-**⚠️ IMPORTANT**: Si tu es Claude travaillant sur ce projet dans une nouvelle conversation, **LIS D'ABORD** :
-
-### 📖 **CLAUDE_INSTRUCTIONS.md** ← COMMENCE ICI
-
-Ce fichier contient les **règles critiques** à suivre, notamment :
-- ✅ **TOUJOURS tester `npm run build` AVANT de déclarer terminé**
-- ✅ Workflow de validation obligatoire
-- ✅ Erreurs connues à éviter
-- ✅ Checklist systématique
-
-**Pourquoi ?** Les conversations précédentes ont eu des problèmes car le code n'était pas testé avant d'être déclaré terminé.
+**Immediate action**: See **quickstart.md** to get started in 5 minutes
 
 ---
 
-## 📚 Documentation Complète
+## 🤖 For Claude (Future Conversations)
 
-### Pour l'Utilisateur
-| Document | Utilité | Temps |
-|----------|---------|-------|
-| **QUICKSTART.md** | Démarrage rapide | 5 min |
-| **INSTALLATION.md** | Guide complet installation | 15 min |
-| **TESTING_GUIDE.md** | Tests et validation | 20 min |
-| **MIGRATION_GUIDE.md** | Migration 1.0→1.1 | 10 min |
-| **SECURITY.md** | Sécurité et audit | 15 min |
+**⚠️ IMPORTANT**: If you are Claude working on this project in a new conversation, **READ FIRST**:
 
-### Pour Claude (Développement)
-| Document | Utilité | Temps |
-|----------|---------|-------|
-| **CLAUDE_INSTRUCTIONS.md** | **RÈGLES OBLIGATOIRES** ⭐ | 10 min |
-| **BUILD_FIXES.md** | Corrections build appliquées | 5 min |
-| **POST_BUILD_FIXES.md** | Résolution problèmes | 10 min |
-| **BUGFIX.md** | Historique bugs corrigés | 5 min |
+### 📖 **working-with-claude.md** ← START HERE
 
-### Documentation Technique
-| Document | Utilité | Temps |
-|----------|---------|-------|
-| **README.md** | Doc technique complète | 30 min |
-| **CHANGELOG.md** | Historique versions | 10 min |
-| **INDEX.md** | Navigation documentation | 3 min |
-| **FINAL_SUMMARY.md** | Vue d'ensemble projet | 15 min |
+This file contains **critical rules** to follow, including:
+- ✅ **ALWAYS test `npm run build` BEFORE declaring work complete**
+- ✅ Mandatory validation workflow
+- ✅ Known errors to avoid
+- ✅ Systematic checklist
+
+**Why?** Previous conversations had issues because code wasn't tested before being declared complete.
 
 ---
 
-## ✅ Statut Actuel du Projet
+## 📚 Complete Documentation
 
-**Version**: 1.1.0  
+### For Users
+| Document | Purpose | Time |
+|----------|---------|------|
+| **quickstart.md** | Quick start guide | 5 min |
+| **installation.md** | Complete installation guide | 15 min |
+| **testing.md** | Testing and validation | 20 min |
+| **migration.md** | Migration 1.0→1.1 | 10 min |
+| **security.md** | Security and audit | 15 min |
+
+### For Claude (Development)
+| Document | Purpose | Time |
+|----------|---------|------|
+| **working-with-claude.md** | **MANDATORY RULES** ⭐ | 10 min |
+| **build-fixes.md** | Applied build fixes | 5 min |
+| **troubleshooting.md** | Problem resolution | 10 min |
+| **lessons-learned.md** | Bug fix history | 5 min |
+
+### Technical Documentation
+| Document | Purpose | Time |
+|----------|---------|------|
+| **README.md** | Complete technical docs | 30 min |
+| **changelog.md** | Version history | 10 min |
+| **index.md** | Documentation navigation | 3 min |
+| **roadmap.md** | Project overview | 15 min |
+
+---
+
+## ✅ Current Project Status
+
+**Version**: 1.2.0  
 **Status**: ✅ Production Ready  
-**Outils MCP**: 12 (5 file + 4 directory + 3 search)  
-**Tests**: 180+ tests, >90% coverage  
-**Build**: ✅ Fonctionne sans erreurs
+**MCP Tools**: 14 (7 file + 4 directory + 3 search)  
+**Tests**: Ready for 180+ tests  
+**Build**: ✅ Working without errors
 
 ---
 
-## 🚀 Actions Rapides
+## 🚀 Quick Actions
 
-### Pour l'Utilisateur
+### For Users
 ```bash
 cd packages/dev-tools
 npm install
 npm run build
-# Puis configure Claude Desktop
+# Then configure Claude Desktop
 ```
 
-### Pour Claude en Développement
+### For Claude in Development
 ```bash
-# TOUJOURS faire avant de déclarer terminé:
+# ALWAYS do this before declaring work complete:
 npm run build
 node validate.js
 npm audit --production
@@ -81,97 +81,95 @@ npm audit --production
 
 ---
 
-## 🎯 Navigation Rapide
+## 🎯 Quick Navigation
 
-**Besoin de** → **Va voir**
+**Need to** → **Check out**
 
-- Installer rapidement → `QUICKSTART.md`
-- Installation détaillée → `INSTALLATION.md`
-- Comprendre le projet → `FINAL_SUMMARY.md`
-- Tester le package → `TESTING_GUIDE.md`
-- Migrer de 1.0 à 1.1 → `MIGRATION_GUIDE.md`
-- Vérifier sécurité → `SECURITY.md`
-- Développer features → `CLAUDE_INSTRUCTIONS.md` ⭐
-- Voir historique → `CHANGELOG.md`
-- Corrections appliquées → `BUILD_FIXES.md`
-- Toute la doc → `INDEX.md`
-
----
-
-## ⚠️ Règles Importantes
-
-### Pour Claude Développant Sur Ce Projet
-
-1. **TOUJOURS** lire `CLAUDE_INSTRUCTIONS.md` en premier
-2. **TOUJOURS** tester `npm run build` avant de dire "terminé"
-3. **TOUJOURS** vérifier que fichiers existent avec `file_exists`
-4. **TOUJOURS** lire le résultat dans `dist/` après compilation
-5. **JAMAIS** déclarer terminé sans avoir testé
-
-### Pour l'Utilisateur
-
-1. Toujours utiliser **chemins absolus** dans la config Claude Desktop
-2. Redémarrer Claude Desktop **complètement** après modifications
-3. Vérifier les logs dans `.logs/` en cas de problème
-4. Utiliser `npm audit` régulièrement pour sécurité
+- Quick install → `quickstart.md`
+- Detailed installation → `installation.md`
+- Understand the project → `roadmap.md`
+- Test the package → `testing.md`
+- Migrate from 1.0 to 1.1 → `migration.md`
+- Check security → `security.md`
+- Develop features → `working-with-claude.md` ⭐
+- View history → `changelog.md`
+- Applied fixes → `build-fixes.md`
+- All documentation → Main `index.md`
 
 ---
 
-## 🏗️ Structure du Projet
+## ⚠️ Important Rules
+
+### For Claude Developing On This Project
+
+1. **ALWAYS** read `working-with-claude.md` first
+2. **ALWAYS** test `npm run build` before saying "done"
+3. **ALWAYS** verify files exist with `file_exists`
+4. **ALWAYS** read the result in `dist/` after compilation
+5. **NEVER** declare work complete without testing
+
+### For Users
+
+1. Always use **absolute paths** in Claude Desktop config
+2. Restart Claude Desktop **completely** after modifications
+3. Check logs in `.logs/` if there are issues
+4. Use `npm audit` regularly for security
+
+---
+
+## 🏗️ Project Structure
 
 ```
 packages/dev-tools/
-├── src/                      # Code source TypeScript
-│   ├── tools/               # Outils MCP (12)
-│   ├── utils/               # Utilitaires
-│   ├── types/               # Types TypeScript
-│   └── server.ts            # Serveur MCP principal
-├── dist/                    # Code compilé (généré)
-├── docs/                    # Documentation complète
-├── tests/                   # Tests unitaires (180+)
-├── CLAUDE_INSTRUCTIONS.md   # ⭐ RÈGLES POUR CLAUDE
-├── QUICKSTART.md            # Démarrage rapide
-├── INSTALLATION.md          # Guide installation
-├── README.md                # Documentation technique
-└── package.json             # Configuration npm
+├── src/                      # TypeScript source code
+│   ├── tools/               # MCP tools (14)
+│   ├── utils/               # Utilities
+│   ├── types/               # TypeScript types
+│   └── server.ts            # Main MCP server
+├── dist/                    # Compiled code (generated)
+├── docs/                    # Complete documentation
+├── tests/                   # Unit tests (ready for 180+)
+├── scripts/                 # Automation scripts
+├── README.md                # Technical documentation
+└── package.json             # npm configuration
 ```
 
 ---
 
-## 💡 Ce Qui Rend Ce Projet Unique
+## 💡 What Makes This Project Unique
 
-1. **Premier package MCP** de gestion fichiers production-ready
-2. **Sécurité enterprise**: Validation paths, backups, rate limiting
-3. **12 outils complets**: Files + Directories + Search
-4. **Documentation exhaustive**: 15+ fichiers de doc
-5. **Tests complets**: 180+ tests, >90% coverage
-6. **Leçons apprises documentées**: Pour éviter erreurs futures
+1. **First production-ready MCP package** for file management
+2. **Enterprise security**: Path validation, backups, rate limiting
+3. **14 complete tools**: Files + Directories + Search
+4. **Exhaustive documentation**: 20+ documentation files
+5. **Ready for comprehensive tests**: Framework for 180+ tests
+6. **Documented lessons learned**: To avoid future errors
 
 ---
 
-## 🎉 Résultat Final
+## 🎉 Final Result
 
-**Ce package permet à Claude de**:
-- ✅ Modifier fichiers en place (rename_file)
-- ✅ Gérer répertoires complets
-- ✅ Rechercher fichiers et contenu
-- ✅ Détecter doublons
-- ✅ Opérations sécurisées avec backups
-- ✅ Travailler de façon autonome
+**This package allows Claude to**:
+- ✅ Modify files in place (rename_file)
+- ✅ Manage complete directories
+- ✅ Search files and content
+- ✅ Detect duplicates
+- ✅ Secure operations with backups
+- ✅ Work autonomously
 
-**Sans risquer de**:
+**Without risking**:
 - ❌ Path traversal
-- ❌ Suppression accidentelle
-- ❌ Écrasement de fichiers importants
-- ❌ Accès hors workspace
+- ❌ Accidental deletion
+- ❌ Overwriting important files
+- ❌ Access outside workspace
 
 ---
 
-**Prochaine action**: 
-- **Utilisateur** → `QUICKSTART.md`
-- **Claude** → `CLAUDE_INSTRUCTIONS.md` ⭐
+**Next action**: 
+- **User** → `quickstart.md`
+- **Claude** → `working-with-claude.md` ⭐
 
 ---
 
-*Version 1.1.0 - 19 Octobre 2025*  
-*Production Ready avec 12 outils MCP*
+*Version 1.2.0 - October 19-20, 2025*  
+*Production Ready with 14 MCP tools*

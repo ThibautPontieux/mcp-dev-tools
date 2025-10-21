@@ -33,7 +33,7 @@
 ### Development
 - [👨‍💻 Contributing](development/contributing.md) - How to contribute
 - [🏗️ Architecture](development/architecture.md) - System architecture
-- [🤖 Claude Instructions](development/claude-instructions.md) - For AI assistants
+- [🤖 Working with Claude](development/working-with-claude.md) - AI collaboration guide
 - [📦 Package Management](development/package-management.md) - Dependency management
 - [🔄 Autonomous Workflow](development/autonomous-workflow.md) - Automated workflows
 - [💡 Lessons Learned](development/lessons-learned.md) - Project insights
@@ -150,6 +150,6 @@ MIT © 2025 Thibaut Pontieux
 
 ---
 
-**Last updated:** October 20, 2025  
+**Last updated:** October 21, 2025  
 **Version:** 1.2.0  
 **Status:** ✅ Production Ready
